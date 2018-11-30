@@ -1,11 +1,7 @@
 package com.ceiba.AdnProject.model;
 
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.TimeZone;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -40,7 +35,7 @@ public class Parking implements Serializable {
 	@Column(name = "dateIn", nullable = false, length = 500)
 	private Date dateIn;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true)
 	private Vehicle vehicle;
 
 	public Parking() {
@@ -51,11 +46,7 @@ public class Parking implements Serializable {
 		super();
 		this.status = status;
 		this.type = type;
-		
-
-			// this.dateIn = generateDate();
-			this.dateIn = new Date();
-		
+		this.dateIn = new Date();
 		this.vehicle = vehicle;
 	}
 
@@ -97,12 +88,5 @@ public class Parking implements Serializable {
 
 	public void setDateIn(Date dateIn) {
 		this.dateIn = dateIn;
-	}
-
-	public Date generateDate() throws ParseException {
-		SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-		isoFormat.setTimeZone(TimeZone.getTimeZone("GMT-5:00"));
-		Date date = isoFormat.parse(isoFormat.toString());
-		return date;
 	}
 }

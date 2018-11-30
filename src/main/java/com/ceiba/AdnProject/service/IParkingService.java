@@ -9,4 +9,6 @@ import com.ceiba.AdnProject.model.Vehicle;
 public interface IParkingService {
 
 	public Parking saveVehicle(InputDTO object) throws ParkingException;
+	
+	public Parking generatePayment(InputDTO object) throws ParkingException;
 }

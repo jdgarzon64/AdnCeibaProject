@@ -13,7 +13,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Bill")
+@Table(name="Payment")
 public class Payment implements Serializable{
 	
 	/**
@@ -47,6 +47,17 @@ public class Payment implements Serializable{
 
 	public Payment() {
 		super();
+	}
+
+	public Payment(Vehicle vehicle, String hourCheckIn, String hourCheckOut, String timeInside, String priceByHour,
+			String totalPrice) {
+		super();
+		this.vehicle = vehicle;
+		this.hourCheckIn = hourCheckIn;
+		this.hourCheckOut = hourCheckOut;
+		this.timeInside = timeInside;
+		this.priceByHour = priceByHour;
+		this.totalPrice = totalPrice;
 	}
 
 	public int getIdPayment() {
