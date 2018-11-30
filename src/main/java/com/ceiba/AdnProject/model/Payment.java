@@ -37,7 +37,7 @@ public class Payment implements Serializable{
 	private String hourCheckOut;
 	
 	@Column(name = "timeInside", nullable = false)
-	private String timeInside;
+	private int timeInside;
 	
 	@Column(name = "priceByHour", nullable = false)
 	private String priceByHour;
@@ -49,7 +49,7 @@ public class Payment implements Serializable{
 		super();
 	}
 
-	public Payment(Vehicle vehicle, String hourCheckIn, String hourCheckOut, String timeInside, String priceByHour,
+	public Payment(Vehicle vehicle, String hourCheckIn, String hourCheckOut, int timeInside, String priceByHour,
 			String totalPrice) {
 		super();
 		this.vehicle = vehicle;
@@ -92,11 +92,11 @@ public class Payment implements Serializable{
 		this.hourCheckOut = hourCheckOut;
 	}
 
-	public String getTimeInside() {
+	public int getTimeInside() {
 		return timeInside;
 	}
 
-	public void setTimeInside(String timeInside) {
+	public void setTimeInside(int timeInside) {
 		this.timeInside = timeInside;
 	}
 
