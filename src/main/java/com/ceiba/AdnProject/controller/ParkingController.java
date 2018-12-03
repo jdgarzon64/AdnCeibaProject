@@ -24,9 +24,20 @@ public class ParkingController {
 	private IParkingService _IParkingService;
 
 	@RequestMapping("/save")
-	public ResponseEntity<Parking> test(@RequestBody(required = true) InputDTO object) {
+	public ResponseEntity<Parking> saveVehicle(@RequestBody(required = true) InputDTO object) {
 		try {
 			Parking response = _IParkingService.saveVehicle(object);
+			return new ResponseEntity<Parking>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return new ResponseEntity<Parking>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@RequestMapping("/payment")
+	public ResponseEntity<Parking> test(@RequestBody(required = true) InputDTO object) {
+		try {
+			Parking response = _IParkingService.generatePayment(object);
 			return new ResponseEntity<Parking>(response, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Parking>(HttpStatus.BAD_REQUEST);
