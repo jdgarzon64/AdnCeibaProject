@@ -13,5 +13,6 @@ public class Car extends Vehicle {
 		super();
 		this.vehicleType = new VehicleType(VehicleTypeEnum.CAR.name());
 		this.licenceNumber = licence;
+		this.engine="0";
 	}
 }

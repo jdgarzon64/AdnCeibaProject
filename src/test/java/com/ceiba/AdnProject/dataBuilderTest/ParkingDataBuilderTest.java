@@ -12,7 +12,7 @@ import com.ceiba.AdnProject.model.util.VehicleTypeEnum;
 
 public class ParkingDataBuilderTest {
 
-	public static final String LICENCE_CAR = "ABC123";
+	public static final String LICENCE_CAR = "EBC123";
 	private static final String LICENCE_MOTORCYCLE = "QWE123";
 	private static final String LICENCE_MOTORCYCLE_PLUS = "ZXC123";
 	private static final String ENGINE_MOTORCYCLE = "400";
@@ -33,8 +33,8 @@ public class ParkingDataBuilderTest {
 	public Parking createParkingCar() {
 		// boolean status, String type, Vehicle vehicle
 		Parking parking = new Parking(true, VehicleTypeEnum.CAR.name(), createCar());
-		String date = "Thu, Dic 03 2018 23:37:50";
-		SimpleDateFormat formatter = new SimpleDateFormat("E, MMM dd yyyy HH:mm:ss");
+		String date = "2018-12-04T5:08:56.235-07:00 ";
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
 		Date dateMock;
 		try {
 			dateMock = formatter.parse(date);
