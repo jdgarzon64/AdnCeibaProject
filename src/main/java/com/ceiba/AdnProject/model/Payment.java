@@ -26,8 +26,8 @@ public class Payment implements Serializable{
 	@Column(name = "idPayment", unique = true, nullable = false)
 	private int idPayment;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, 
-			optional = true)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, 
+			optional = true,orphanRemoval = true)
 	private Vehicle vehicle;
 	
 	@Column(name = "hourCheckIn", nullable = false)

@@ -54,7 +54,7 @@ public class ParkingServiceImpl implements IParkingService {
 	@Override
 	public Parking saveVehicle(InputDTO object) throws ParkingException {
 		Vehicle vehicle = _IVehicleFactory.createVehicle(object);
-		Parking p = findVehicle(vehicle.getLicenceNumber());
+		Parking p = findVehicle(vehicle.getLicenceNumber().toUpperCase());
 		if (p != null)
 			throw new ParkingException(VEHICLE_REGISTERED_EXCEPTION);
 		verifyLicence(vehicle.getLicenceNumber());
@@ -91,9 +91,8 @@ public class ParkingServiceImpl implements IParkingService {
 	}
 
 	@Override
-	public Parking generatePayment(InputDTO object) throws ParkingException {
-		generatePayment(object.getLicence());
-		return null;
+	public Payment generatePayment(InputDTO object) throws ParkingException {
+		return generatePayment(object.getLicence());
 	}
 
 	@PostConstruct
@@ -104,16 +103,16 @@ public class ParkingServiceImpl implements IParkingService {
 	public Parking findVehicle(String licence) {
 		getAllVehicles();
 		for (Parking parking : this.list) {
-			if (parking.getVehicle().getLicenceNumber().equals(licence))
+			if (parking.getVehicle().getLicenceNumber().toUpperCase().equals(licence))
 				return parking;
 		}
 		return null;
 	}
 
-	public double generatePayment(String licence) throws ParkingException {
+	public Payment generatePayment(String licence) throws ParkingException {
 		GregorianCalendar calendario = new GregorianCalendar();
 		calendario.setTime(new Date());
-		Parking parking = findVehicle(licence);
+		Parking parking = findVehicle(licence.toUpperCase());
 		if (parking == null)
 			throw new ParkingException(VEHICLE_UNKNOW);
 		int timeInside = timeIside(parking.getDateIn(), calendario.getTime());
@@ -121,29 +120,26 @@ public class ParkingServiceImpl implements IParkingService {
 		int priceByHour = 0;
 		if (parking.getVehicle().getVehicleType().getType().equals(VehicleTypeEnum.CAR.name())) {
 			priceByHour = CAR_HOUR;
-			totalPrice = generatePrice(timeInside, 0);
+			totalPrice = generatePrice(timeInside, 0, CAR_HOUR, CAR_DAY);
 		} else if (parking.getVehicle().getVehicleType().getType().toUpperCase().equals(VehicleTypeEnum.MOTORCYCLE.name())) {
 			priceByHour = MOTORCYCLE_HOUR;
-			totalPrice = generatePrice(timeInside, 0);
+			totalPrice = generatePrice(timeInside, 0, MOTORCYCLE_HOUR, MOTORCYCLE_DAY);
+		}
+		if (Integer.parseInt(parking.getVehicle().getEngine()) > MAX_ENGINE) {
+			totalPrice += 2000;
 		}
 		Payment payment = new Payment(parking.getVehicle(), parking.getDateIn().toString(),
-				calendario.getTime().toString(), timeInside, String.valueOf(priceByHour), String.valueOf(priceByHour));
+				calendario.getTime().toString(), timeInside, String.valueOf(priceByHour), String.valueOf(totalPrice));
 		System.out.println("fecha entrada " + parking.getDateIn().toString());
 		System.out.println("fecha salida " + calendario.getTime().toString());
 		System.out.println("tiempo adentro " + timeInside);
 		System.out.println("precio total" + totalPrice);
 		_IPaymentRepository.save(payment);
-		return 0;
+		quitVehicle(licence.toUpperCase());
+		return payment;
 	}
 
-	/*
-	 * private double generatePrice(String timeInside, String vehicleType) {
-	 * vehicleType.toUpperCase(); String array[] = timeInside.split("/"); int price
-	 * = 0; switch (vehicleType) { case "MOTORCYCLE": price =
-	 * Integer.parseInt(array[1]) * MOTORCYCLE_HOUR; break; case "CAR": price =
-	 * Integer.parseInt(array[0]) * MOTORCYCLE_DAY + Integer.parseInt(array[1]) *
-	 * MOTORCYCLE_HOUR; break; } return price; }
-	 */
+
 	public int timeIside(Date in, Date out) {
 
 		DecimalFormat crunchifyFormatter = new DecimalFormat("###,###");
@@ -155,23 +151,32 @@ public class ParkingServiceImpl implements IParkingService {
 		int diffhours = (int) (diff / (60 * 60 * 1000));
 		System.out.println("difference between hours: " + crunchifyFormatter.format(diffhours));
 
-		int countHours = diffhours - (24 * diffDays);
-		// String timeInside = String.valueOf(countHours);
-
 		return diffhours;
 	}
 
-	public double generatePrice(int hours, double price) {
+	public double generatePrice(int hours, double price, int vehicleHour, int VehicleDay) {
+		if (hours == 0) {
+			price += vehicleHour;
+		}
 		if (hours < 9) {
-			price += hours * MOTORCYCLE_DAY;
+			price += hours * vehicleHour;
 		}
 		if (hours > 9 && hours < 24) {
-			price += 4000;
+			price += VehicleDay;
 		}
 		if (hours >= 24) {
-			price += 4000;
-			return generatePrice(hours - 24, price);
+			price += VehicleDay;
+			return generatePrice(hours - 24, price, vehicleHour, VehicleDay);
 		}
 		return price;
 	}
+	
+	public boolean quitVehicle(String licence) {
+		Parking parking = findVehicle(licence.toUpperCase());
+		_IPersistenceRepository.delete(parking);
+		// _IPersistenceRepository.deleteParking(licence);
+		return true;
+	}
+	
+	
 }
