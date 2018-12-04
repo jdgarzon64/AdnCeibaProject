@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ceiba.AdnProject.dto.InputDTO;
 import com.ceiba.AdnProject.dto.ResponseDTO;
 import com.ceiba.AdnProject.model.Parking;
+import com.ceiba.AdnProject.model.Payment;
 import com.ceiba.AdnProject.model.Vehicle;
 import com.ceiba.AdnProject.service.IParkingService;
 
@@ -35,12 +36,12 @@ public class ParkingController {
 	}
 	
 	@RequestMapping("/payment")
-	public ResponseEntity<Parking> test(@RequestBody(required = true) InputDTO object) {
+	public ResponseEntity<Payment> test(@RequestBody(required = true) InputDTO object) {
 		try {
-			Parking response = _IParkingService.generatePayment(object);
-			return new ResponseEntity<Parking>(response, HttpStatus.OK);
+			Payment response = _IParkingService.generatePayment(object);
+			return new ResponseEntity<Payment>(response, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<Parking>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Payment>(HttpStatus.BAD_REQUEST);
 		}
 	}
 }

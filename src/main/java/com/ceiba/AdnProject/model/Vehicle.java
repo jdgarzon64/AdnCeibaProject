@@ -28,8 +28,8 @@ public class Vehicle implements Serializable{
 	@Column(name = "idVehicle", unique = true, nullable = false)
 	public int idVehicle;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, 
-			optional = true)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, 
+			optional = true,orphanRemoval = true)
 	public VehicleType vehicleType;
 		
 	@Column(name = "licenceNumber", nullable = false)

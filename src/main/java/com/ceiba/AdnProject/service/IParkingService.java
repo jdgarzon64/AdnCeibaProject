@@ -4,11 +4,13 @@ import com.ceiba.AdnProject.dto.InputDTO;
 import com.ceiba.AdnProject.dto.ResponseDTO;
 import com.ceiba.AdnProject.exception.ParkingException;
 import com.ceiba.AdnProject.model.Parking;
+import com.ceiba.AdnProject.model.Payment;
 import com.ceiba.AdnProject.model.Vehicle;
 
 public interface IParkingService {
 
 	public Parking saveVehicle(InputDTO object) throws ParkingException;
 	
-	public Parking generatePayment(InputDTO object) throws ParkingException;
+	public Payment generatePayment(InputDTO object) throws ParkingException;
+	
 }

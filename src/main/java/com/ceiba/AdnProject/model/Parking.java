@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+
 @Entity
 @Table(name = "Parking")
 public class Parking implements Serializable {
@@ -35,7 +37,7 @@ public class Parking implements Serializable {
 	@Column(name = "dateIn", nullable = false, length = 500)
 	private Date dateIn;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER,orphanRemoval = true, optional = true)
 	private Vehicle vehicle;
 
 	public Parking() {
