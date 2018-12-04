@@ -51,6 +51,14 @@ public class ParkingServiceImpl implements IParkingService {
 		// getAllVehicles();
 	}
 
+	public ParkingServiceImpl(IPersistenceRepository _IPersistenceRepository, IPaymentRepository _IPaymentRepository,
+			IVehicleFactory _IVehicleFactory) {
+		this._IPaymentRepository = _IPaymentRepository;
+		this._IPersistenceRepository = _IPersistenceRepository;
+		this._IVehicleFactory = _IVehicleFactory;
+		getAllVehicles();
+	}
+
 	@Override
 	public Parking saveVehicle(InputDTO object) throws ParkingException {
 		Vehicle vehicle = _IVehicleFactory.createVehicle(object);
@@ -121,7 +129,8 @@ public class ParkingServiceImpl implements IParkingService {
 		if (parking.getVehicle().getVehicleType().getType().equals(VehicleTypeEnum.CAR.name())) {
 			priceByHour = CAR_HOUR;
 			totalPrice = generatePrice(timeInside, 0, CAR_HOUR, CAR_DAY);
-		} else if (parking.getVehicle().getVehicleType().getType().toUpperCase().equals(VehicleTypeEnum.MOTORCYCLE.name())) {
+		} else if (parking.getVehicle().getVehicleType().getType().toUpperCase()
+				.equals(VehicleTypeEnum.MOTORCYCLE.name())) {
 			priceByHour = MOTORCYCLE_HOUR;
 			totalPrice = generatePrice(timeInside, 0, MOTORCYCLE_HOUR, MOTORCYCLE_DAY);
 		}
@@ -138,7 +147,6 @@ public class ParkingServiceImpl implements IParkingService {
 		quitVehicle(licence.toUpperCase());
 		return payment;
 	}
-
 
 	public int timeIside(Date in, Date out) {
 
@@ -170,13 +178,12 @@ public class ParkingServiceImpl implements IParkingService {
 		}
 		return price;
 	}
-	
+
 	public boolean quitVehicle(String licence) {
 		Parking parking = findVehicle(licence.toUpperCase());
 		_IPersistenceRepository.delete(parking);
 		// _IPersistenceRepository.deleteParking(licence);
 		return true;
 	}
-	
-	
+
 }
