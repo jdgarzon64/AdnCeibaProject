@@ -12,7 +12,7 @@ public class VehicleFactoryImpl implements IVehicleFactory{
 	@Override
 	public Vehicle createVehicle(InputDTO inputDTO) {
 
-		if (inputDTO.getEngine().equals("")) {
+		if (inputDTO.getEngine().equals("0")) {
 			Car car = new Car(inputDTO.getLicence());
 			System.out.println("i am a car :D");
 			return car;

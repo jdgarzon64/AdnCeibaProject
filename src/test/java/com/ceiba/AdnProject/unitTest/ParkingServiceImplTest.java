@@ -26,10 +26,10 @@ public class ParkingServiceImplTest {
 	IPaymentRepository _IPaymentRepository;
 	@Mock
 	IVehicleFactory _IVehicleFactory;
-
-	ParkingDataBuilderTest dataBuilderTest;
 	@InjectMocks
 	ParkingServiceImpl parkingServiceImpl;
+	
+	ParkingDataBuilderTest dataBuilderTest;
 
 	@Before
 	public void setUp() {
