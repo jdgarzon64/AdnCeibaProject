@@ -8,12 +8,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.ceiba.AdnProject.dto.InputDTO;
-import com.ceiba.AdnProject.dto.ResponseDTO;
 import com.ceiba.AdnProject.model.Parking;
 import com.ceiba.AdnProject.model.Payment;
-import com.ceiba.AdnProject.model.Vehicle;
 import com.ceiba.AdnProject.service.IParkingService;
 
 @CrossOrigin
