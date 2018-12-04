@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
+
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ceiba.AdnProject.dto.InputDTO;
@@ -52,11 +54,12 @@ public class ParkingServiceImpl implements IParkingService {
 		this._IPaymentRepository = _IPaymentRepository;
 		this._IPersistenceRepository = _IPersistenceRepository;
 		this._IVehicleFactory = _IVehicleFactory;
-		// getAllVehicles();
+		//getAllVehicles();
 	}
 
 	@Override
 	public Parking saveVehicle(InputDTO object) throws ParkingException {
+		// getAllVehicles();
 		Vehicle vehicle = _IVehicleFactory.createVehicle(object);
 		Parking p = findVehicle(vehicle.getLicenceNumber().toUpperCase());
 		if (p != null)
@@ -67,7 +70,7 @@ public class ParkingServiceImpl implements IParkingService {
 		Parking parking = new Parking(true, vehicle.getVehicleType().getType(), vehicle);
 // TODO DTO response
 		_IPersistenceRepository.save(parking);
-		getAllVehicles();
+
 		return parking;
 	}
 
@@ -101,16 +104,18 @@ public class ParkingServiceImpl implements IParkingService {
 		return generatePayment(object.getLicence());
 	}
 
-	@PostConstruct
+	//@PostConstruct
 	public void getAllVehicles() {
-		this.list = (List<Parking>) _IPersistenceRepository.findAll();
+		this.list = Lists.newArrayList(_IPersistenceRepository.findAll());
 	}
 
 	public Parking findVehicle(String licence) {
 		getAllVehicles();
-		for (Parking parking : this.list) {
-			if (parking.getVehicle().getLicenceNumber().toUpperCase().equals(licence))
-				return parking;
+		if (this.list != null) {
+			for (Parking parking : this.list) {
+				if (parking.getVehicle().getLicenceNumber().toUpperCase().equals(licence))
+					return parking;
+			}
 		}
 		return null;
 	}
@@ -164,8 +169,8 @@ public class ParkingServiceImpl implements IParkingService {
 		if (hours == 0) {
 			price += vehicleHour;
 		}
-		if (hours < 9) {
-			price += hours * vehicleHour;
+		if (hours > 0 && hours < 9 ) {
+			price += (hours + 1) * vehicleHour;
 		}
 		if (hours > 9 && hours < 24) {
 			price += VehicleDay;
@@ -187,15 +192,17 @@ public class ParkingServiceImpl implements IParkingService {
 	public boolean completeVehicle(String type) {
 		getAllVehicles();
 		int count = 0;
-		for (Parking parking : list) {
-			if (parking.getType().toUpperCase().equals(type)) {
-				count++;
+		if (this.list != null) {
+			for (Parking parking : list) {
+				if (parking.getType().toUpperCase().equals(type)) {
+					count++;
+				}
 			}
+			if (type.equals(VehicleTypeEnum.MOTORCYCLE.name()) && count >= 10)
+				return false;
+			if (type.equals(VehicleTypeEnum.CAR.name()) && count >= 20)
+				return false;
 		}
-		if (type.equals(VehicleTypeEnum.MOTORCYCLE.name()) && count >= 10)
-			return false;
-		if (type.equals(VehicleTypeEnum.CAR.name()) && count >= 20)
-			return false;
 		return true;
 	}
 }
