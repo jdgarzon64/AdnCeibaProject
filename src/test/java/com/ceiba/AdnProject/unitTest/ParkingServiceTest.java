@@ -2,6 +2,7 @@ package com.ceiba.AdnProject.unitTest;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
@@ -24,6 +25,7 @@ import com.ceiba.AdnProject.dto.InputDTO;
 import com.ceiba.AdnProject.exception.ParkingException;
 import com.ceiba.AdnProject.factory.IVehicleFactory;
 import com.ceiba.AdnProject.model.Parking;
+import com.ceiba.AdnProject.model.Payment;
 import com.ceiba.AdnProject.repository.IPaymentRepository;
 import com.ceiba.AdnProject.repository.IPersistenceRepository;
 import com.ceiba.AdnProject.service.ParkingServiceImpl;
@@ -70,7 +72,7 @@ public class ParkingServiceTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	public void saveMotorcyclePlusEngineTest() {
 		try {
@@ -82,12 +84,13 @@ public class ParkingServiceTest {
 			// act
 			Parking parking = parkingServiceImpl.saveVehicle(dto);
 			// Assert
-			assertEquals(ParkingDataBuilderTest.LICENCE_MOTORCYCLE_PLUS, parking.getVehicle().getLicenceNumber().toUpperCase());
+			assertEquals(ParkingDataBuilderTest.LICENCE_MOTORCYCLE_PLUS,
+					parking.getVehicle().getLicenceNumber().toUpperCase());
 		} catch (ParkingException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	public void saveMotorcycleTest() {
 		try {
@@ -99,7 +102,8 @@ public class ParkingServiceTest {
 			// act
 			Parking parking = parkingServiceImpl.saveVehicle(dto);
 			// Assert
-			assertEquals(ParkingDataBuilderTest.LICENCE_MOTORCYCLE, parking.getVehicle().getLicenceNumber().toUpperCase());
+			assertEquals(ParkingDataBuilderTest.LICENCE_MOTORCYCLE,
+					parking.getVehicle().getLicenceNumber().toUpperCase());
 		} catch (ParkingException e) {
 			e.printStackTrace();
 		}
@@ -168,5 +172,78 @@ public class ParkingServiceTest {
 		assertFalse(response);
 	}
 
+	@Test
+	public void generatePaymentCarTest() {
+		try {
+			// Arrange
+			InputDTO dto = new InputDTO("", "");
+			ParkingServiceImpl parkingServiceImpl = spy(
+					new ParkingServiceImpl(_IPersistenceRepository, _IPaymentRepository, _IVehicleFactory));
+			Mockito.doReturn(dataBuilderTest.createParkingCar()).when(parkingServiceImpl)
+					.findVehicle(Mockito.anyString());
+			// Act
+			Payment payment = parkingServiceImpl.generatePayment(dto);
+			// Assert
+			System.out.println("precio " + payment.getTotalPrice());
+			assertNotNull(payment);
+		} catch (ParkingException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	@Test
+	public void generatePaymentMotorcycleTest() {
+		try {
+			// Arrange
+			InputDTO dto = new InputDTO("", "");
+			ParkingServiceImpl parkingServiceImpl = spy(
+					new ParkingServiceImpl(_IPersistenceRepository, _IPaymentRepository, _IVehicleFactory));
+			Mockito.doReturn(dataBuilderTest.createParkingMotorcycle()).when(parkingServiceImpl)
+					.findVehicle(Mockito.anyString());
+			// Act
+			Payment payment = parkingServiceImpl.generatePayment(dto);
+			// Assert
+			System.out.println("precio " + payment.getTotalPrice());
+			assertNotNull(payment);
+		} catch (ParkingException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	@Test
+	public void generatePaymentMotorcyclePlusTest() {
+		try {
+			// Arrange
+			InputDTO dto = new InputDTO("", "");
+			ParkingServiceImpl parkingServiceImpl = spy(
+					new ParkingServiceImpl(_IPersistenceRepository, _IPaymentRepository, _IVehicleFactory));
+			Mockito.doReturn(dataBuilderTest.createParkingMotorcyclePlus()).when(parkingServiceImpl)
+					.findVehicle(Mockito.anyString());
+			// Act
+			Payment payment = parkingServiceImpl.generatePayment(dto);
+			// Assert
+			System.out.println("precio " + payment.getTotalPrice());
+			assertNotNull(payment);
+		} catch (ParkingException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	@Test
+	public void vehicleUnknowExceptionTest() {
+		try {
+			// Arrange
+			InputDTO dto = new InputDTO("", "");
+			ParkingServiceImpl parkingServiceImpl = spy(
+					new ParkingServiceImpl(_IPersistenceRepository, _IPaymentRepository, _IVehicleFactory));
+			Mockito.doReturn(null).when(parkingServiceImpl).findVehicle(Mockito.anyString());
+			// Act
+			parkingServiceImpl.generatePayment(dto);
+		} catch (ParkingException e) {
+			System.out.println(e.getMessage());
+			// Assert
+			assertEquals(ParkingServiceImpl.VEHICLE_UNKNOW, e.getMessage());
+		}
+	}
 
 }
