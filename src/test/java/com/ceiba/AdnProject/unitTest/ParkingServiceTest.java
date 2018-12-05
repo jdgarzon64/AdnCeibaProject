@@ -100,7 +100,7 @@ public class ParkingServiceTest {
 	}
 	
 
-	
+	@Test
 	public void parkingCompleteExceptionTest() throws ParkingException {
 		try {
 			// Arrange
@@ -109,12 +109,30 @@ public class ParkingServiceTest {
 			List<Parking> list = new ArrayList<Parking>();
 			List<Parking> spyList = Mockito.spy(list);
 			//spyList.add(dataBuilderTest.createParkingCar());
-
+			
+			/*
+			IVehicleFactory _IVehicleFactory = mock(IVehicleFactory.class);
 			when(_IVehicleFactory.createVehicle(dto)).thenReturn(dataBuilderTest.createCar());
-			when(parkingServiceImpl.findVehicle("")).thenReturn(null);
-			when(_IPersistenceRepository.findAll()).thenReturn(null);
+			
+			IPersistenceRepository _IPersistenceRepository = mock(IPersistenceRepository.class);
+			when(_IPersistenceRepository.findAll()).thenReturn(list);
+			*/
+			
+			ParkingServiceImpl parkingServiceImpl = spy(new ParkingServiceImpl(_IPersistenceRepository, _IPaymentRepository,
+					_IVehicleFactory));
+
+			Mockito.doReturn(dataBuilderTest.createCar()).when(_IVehicleFactory).createVehicle(dto);
+			//when(_IVehicleFactory.createVehicle(dto)).thenReturn(dataBuilderTest.createCar());
+			Mockito.doReturn(null).when(parkingServiceImpl).findVehicle(Mockito.anyString());
+			Mockito.lenient().doReturn(null).when(_IPersistenceRepository).findAll();
+			Mockito.doReturn(false).when(parkingServiceImpl).completeVehicle(Mockito.anyString());
+			
+			
+			//when(parkingServiceImpl.findVehicle(Mockito.anyString())).thenReturn(null);
+			//when(_IPersistenceRepository.findAll()).thenReturn(null);
 			//doReturn(false).when(parkingServiceImpl).completeVehicle("");
-			when(parkingServiceImpl.completeVehicle("")).thenReturn(false);
+			//Mockito.doNothing().when(parkingServiceImpl).getAllVehicles();
+			//when(parkingServiceImpl.completeVehicle(Mockito.anyString())).thenReturn(false);
 			
 			// act
 			Parking parking = parkingServiceImpl.saveVehicle(dto);
