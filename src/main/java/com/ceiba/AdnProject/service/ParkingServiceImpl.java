@@ -8,9 +8,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.annotation.PostConstruct;
 
-import org.assertj.core.util.Lists;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ceiba.AdnProject.dto.InputDTO;
@@ -33,9 +32,9 @@ public class ParkingServiceImpl implements IParkingService {
 	private static final int MAX_ENGINE = 500;
 	private static final String PATTERN = "^a|^A";
 	private static final String VEHICLE_UNKNOW = "This Vehicle doesn't exist";
-	private static final String PATTERN_EXCEPTION = "This Vehicle is unauthorized";
-	private static final String VEHICLE_REGISTERED_EXCEPTION = "This Vehicle is alredeady resgistered";
-	private static final String PARKING_COMPLETE_EXCEPTION = "Sorry but we dont have space for your vehicle";
+	public static final String PATTERN_EXCEPTION = "This Vehicle is unauthorized";
+	public static final String VEHICLE_REGISTERED_EXCEPTION = "This Vehicle is alredeady resgistered";
+	public static final String PARKING_COMPLETE_EXCEPTION = "Sorry but we dont have space for your vehicle";
 	private List<Parking> list = new ArrayList<Parking>();
 
 	@Autowired
@@ -54,7 +53,7 @@ public class ParkingServiceImpl implements IParkingService {
 		this._IPaymentRepository = _IPaymentRepository;
 		this._IPersistenceRepository = _IPersistenceRepository;
 		this._IVehicleFactory = _IVehicleFactory;
-		//getAllVehicles();
+		// getAllVehicles();
 	}
 
 	@Override
@@ -72,6 +71,11 @@ public class ParkingServiceImpl implements IParkingService {
 		_IPersistenceRepository.save(parking);
 
 		return parking;
+	}
+
+	@Override
+	public List<Parking> getAllParkings() {
+		return (List<Parking>) _IPersistenceRepository.findAll();
 	}
 
 	public boolean verifyLicence(String licence) throws ParkingException {
@@ -104,9 +108,9 @@ public class ParkingServiceImpl implements IParkingService {
 		return generatePayment(object.getLicence());
 	}
 
-	//@PostConstruct
+	// @PostConstruct
 	public void getAllVehicles() {
-		this.list = Lists.newArrayList(_IPersistenceRepository.findAll());
+		this.list = (List<Parking>) _IPersistenceRepository.findAll();
 	}
 
 	public Parking findVehicle(String licence) {
@@ -169,7 +173,7 @@ public class ParkingServiceImpl implements IParkingService {
 		if (hours == 0) {
 			price += vehicleHour;
 		}
-		if (hours > 0 && hours < 9 ) {
+		if (hours > 0 && hours < 9) {
 			price += (hours + 1) * vehicleHour;
 		}
 		if (hours > 9 && hours < 24) {
@@ -205,4 +209,5 @@ public class ParkingServiceImpl implements IParkingService {
 		}
 		return true;
 	}
+
 }

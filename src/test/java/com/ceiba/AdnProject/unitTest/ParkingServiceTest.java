@@ -2,8 +2,14 @@ package com.ceiba.AdnProject.unitTest;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +17,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.ceiba.AdnProject.dataBuilderTest.ParkingDataBuilderTest;
@@ -38,15 +45,17 @@ public class ParkingServiceTest {
 
 	@Before
 	public void setUp() {
-		//_IPersistenceRepository = mock(IPersistenceRepository.class);
-		//_IPaymentRepository = mock(IPaymentRepository.class);
-		//_IVehicleFactory = mock(IVehicleFactory.class);
-		//parkingServiceImpl = mock(ParkingServiceImpl.class);
+		MockitoAnnotations.initMocks(this);
+		// _IPersistenceRepository = mock(IPersistenceRepository.class);
+		// _IPaymentRepository = mock(IPaymentRepository.class);
+		// _IVehicleFactory = mock(IVehicleFactory.class);
+		parkingServiceImpl = mock(ParkingServiceImpl.class);
 		dataBuilderTest = mock(ParkingDataBuilderTest.class);
-
+		parkingServiceImpl = spy(new ParkingServiceImpl(_IPersistenceRepository, _IPaymentRepository,
+				_IVehicleFactory));
 		this.dataBuilderTest = new ParkingDataBuilderTest();
-		this.parkingServiceImpl = new ParkingServiceImpl(_IPersistenceRepository, _IPaymentRepository,
-				_IVehicleFactory);
+		//this.parkingServiceImpl = new ParkingServiceImpl(_IPersistenceRepository, _IPaymentRepository,
+				//_IVehicleFactory);
 	}
 
 	@Test
@@ -56,13 +65,11 @@ public class ParkingServiceTest {
 			InputDTO dto = new InputDTO("qax", "0");
 			when(_IVehicleFactory.createVehicle(dto)).thenReturn(dataBuilderTest.createCar());
 			when(parkingServiceImpl.findVehicle("")).thenReturn(null);
-			//when(_IPersistenceRepository.save(dataBuilderTest.createParkingCar()))
-					//.thenReturn(dataBuilderTest.createParkingCar());
+			// when(_IPersistenceRepository.save(dataBuilderTest.createParkingCar()))
+			// .thenReturn(dataBuilderTest.createParkingCar());
 			when(_IPersistenceRepository.findAll()).thenReturn(null);
 			// when(parkingServiceImpl.completeVehicle("")).thenReturn(true);
-			
 			// act
-
 			Parking parking = parkingServiceImpl.saveVehicle(dto);
 			// Assert
 			assertEquals(ParkingDataBuilderTest.LICENCE_CAR, parking.getVehicle().getLicenceNumber().toUpperCase());
@@ -71,4 +78,51 @@ public class ParkingServiceTest {
 			e.printStackTrace();
 		}
 	}
+
+	@Test
+	public void vehicleRegisteredExceptionTest() throws ParkingException {
+		try {
+			// Arrange
+			InputDTO dto = new InputDTO("", "");
+			List<Parking> list = new ArrayList<Parking>();
+			List<Parking> spyList = Mockito.spy(list);
+			spyList.add(dataBuilderTest.createParkingCar());
+		
+			when(_IVehicleFactory.createVehicle(dto)).thenReturn(dataBuilderTest.createCar());
+			when(_IPersistenceRepository.findAll()).thenReturn(spyList);
+			// act
+			Parking parking = parkingServiceImpl.saveVehicle(dto);
+		} catch (ParkingException e) {
+			// Assert
+			//System.out.println(e.getMessage());
+			assertEquals(ParkingServiceImpl.VEHICLE_REGISTERED_EXCEPTION, e.getMessage());
+		}
+	}
+	
+
+	
+	public void parkingCompleteExceptionTest() throws ParkingException {
+		try {
+			// Arrange
+		
+			InputDTO dto = new InputDTO("", "");
+			List<Parking> list = new ArrayList<Parking>();
+			List<Parking> spyList = Mockito.spy(list);
+			//spyList.add(dataBuilderTest.createParkingCar());
+
+			when(_IVehicleFactory.createVehicle(dto)).thenReturn(dataBuilderTest.createCar());
+			when(parkingServiceImpl.findVehicle("")).thenReturn(null);
+			when(_IPersistenceRepository.findAll()).thenReturn(null);
+			//doReturn(false).when(parkingServiceImpl).completeVehicle("");
+			when(parkingServiceImpl.completeVehicle("")).thenReturn(false);
+			
+			// act
+			Parking parking = parkingServiceImpl.saveVehicle(dto);
+		} catch (ParkingException e) {
+			// Assert
+			System.out.println(e.getMessage());
+			assertEquals(ParkingServiceImpl.PARKING_COMPLETE_EXCEPTION, e.getMessage());
+		}
+	}
+
 }
