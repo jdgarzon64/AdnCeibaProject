@@ -43,7 +43,8 @@ public class ParkingServiceImpl implements IParkingService {
 	IPaymentRepository _IPaymentRepository;
 	@Autowired
 	IVehicleFactory _IVehicleFactory;
-
+	
+	GregorianCalendar calendario = new GregorianCalendar();
 	public ParkingServiceImpl() {
 		super();
 	}
@@ -88,7 +89,7 @@ public class ParkingServiceImpl implements IParkingService {
 	}
 
 	public boolean verifyDay() {
-		GregorianCalendar calendario = new GregorianCalendar();
+		
 		calendario.setTime(new Date());
 		if (calendario.get(Calendar.DAY_OF_WEEK) == calendario.SUNDAY
 				|| calendario.get(Calendar.DAY_OF_WEEK) == calendario.MONDAY) {
@@ -208,6 +209,14 @@ public class ParkingServiceImpl implements IParkingService {
 				return false;
 		}
 		return true;
+	}
+
+	public GregorianCalendar getCalendario() {
+		return calendario;
+	}
+
+	public void setCalendario(GregorianCalendar calendario) {
+		this.calendario = calendario;
 	}
 
 }
