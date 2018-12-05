@@ -13,10 +13,10 @@ import com.ceiba.AdnProject.model.util.VehicleTypeEnum;
 public class ParkingDataBuilderTest {
 
 	public static final String LICENCE_CAR = "EBC123";
-	private static final String LICENCE_MOTORCYCLE = "QWE123";
-	private static final String LICENCE_MOTORCYCLE_PLUS = "ZXC123";
-	private static final String ENGINE_MOTORCYCLE = "400";
-	private static final String ENGINE_MOTORCYCLE_PLUS = "600";
+	public static final String LICENCE_MOTORCYCLE = "QWE123";
+	public static final String LICENCE_MOTORCYCLE_PLUS = "ZXC123";
+	public static final String ENGINE_MOTORCYCLE = "400";
+	public static final String ENGINE_MOTORCYCLE_PLUS = "600";
 
 	public Vehicle createMotorCycle() {
 		return new Motorcycle(LICENCE_MOTORCYCLE, ENGINE_MOTORCYCLE);
