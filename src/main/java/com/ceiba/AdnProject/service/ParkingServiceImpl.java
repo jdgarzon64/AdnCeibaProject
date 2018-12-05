@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ceiba.AdnProject.dto.InputDTO;
@@ -31,7 +30,7 @@ public class ParkingServiceImpl implements IParkingService {
 	private static final int EXTRA_PRICE = 2000;
 	private static final int MAX_ENGINE = 500;
 	private static final String PATTERN = "^a|^A";
-	private static final String VEHICLE_UNKNOW = "This Vehicle doesn't exist";
+	public static final String VEHICLE_UNKNOW = "This Vehicle doesn't exist";
 	public static final String PATTERN_EXCEPTION = "This Vehicle is unauthorized";
 	public static final String VEHICLE_REGISTERED_EXCEPTION = "This Vehicle is alredeady resgistered";
 	public static final String PARKING_COMPLETE_EXCEPTION = "Sorry but we dont have space for your vehicle";
@@ -43,8 +42,9 @@ public class ParkingServiceImpl implements IParkingService {
 	IPaymentRepository _IPaymentRepository;
 	@Autowired
 	IVehicleFactory _IVehicleFactory;
-	
+
 	GregorianCalendar calendario = new GregorianCalendar();
+
 	public ParkingServiceImpl() {
 		super();
 	}
@@ -54,7 +54,6 @@ public class ParkingServiceImpl implements IParkingService {
 		this._IPaymentRepository = _IPaymentRepository;
 		this._IPersistenceRepository = _IPersistenceRepository;
 		this._IVehicleFactory = _IVehicleFactory;
-		// getAllVehicles();
 	}
 
 	@Override
@@ -68,9 +67,7 @@ public class ParkingServiceImpl implements IParkingService {
 			throw new ParkingException(PARKING_COMPLETE_EXCEPTION);
 		verifyLicence(vehicle.getLicenceNumber());
 		Parking parking = new Parking(true, vehicle.getVehicleType().getType(), vehicle);
-// TODO DTO response
 		_IPersistenceRepository.save(parking);
-
 		return parking;
 	}
 
@@ -89,7 +86,7 @@ public class ParkingServiceImpl implements IParkingService {
 	}
 
 	public boolean verifyDay() {
-		
+
 		calendario.setTime(new Date());
 		if (calendario.get(Calendar.DAY_OF_WEEK) == calendario.SUNDAY
 				|| calendario.get(Calendar.DAY_OF_WEEK) == calendario.MONDAY) {
@@ -108,8 +105,7 @@ public class ParkingServiceImpl implements IParkingService {
 	public Payment generatePayment(InputDTO object) throws ParkingException {
 		return generatePayment(object.getLicence());
 	}
-
-	// @PostConstruct
+	
 	public void getAllVehicles() {
 		this.list = (List<Parking>) _IPersistenceRepository.findAll();
 	}
@@ -177,7 +173,7 @@ public class ParkingServiceImpl implements IParkingService {
 		if (hours > 0 && hours < 9) {
 			price += (hours + 1) * vehicleHour;
 		}
-		if (hours > 9 && hours < 24) {
+		if (hours >= 9 && hours < 24) {
 			price += VehicleDay;
 		}
 		if (hours >= 24) {
@@ -190,7 +186,6 @@ public class ParkingServiceImpl implements IParkingService {
 	public boolean quitVehicle(String licence) {
 		Parking parking = findVehicle(licence.toUpperCase());
 		_IPersistenceRepository.delete(parking);
-		// _IPersistenceRepository.deleteParking(licence);
 		return true;
 	}
 
@@ -209,10 +204,6 @@ public class ParkingServiceImpl implements IParkingService {
 				return false;
 		}
 		return true;
-	}
-
-	public GregorianCalendar getCalendario() {
-		return calendario;
 	}
 
 	public void setCalendario(GregorianCalendar calendario) {
