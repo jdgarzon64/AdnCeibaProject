@@ -1,5 +1,7 @@
 package com.ceiba.AdnProject.service;
 
+import java.util.List;
+
 import com.ceiba.AdnProject.dto.InputDTO;
 import com.ceiba.AdnProject.exception.ParkingException;
 import com.ceiba.AdnProject.model.Parking;
@@ -10,5 +12,7 @@ public interface IParkingService {
 	public Parking saveVehicle(InputDTO object) throws ParkingException;
 	
 	public Payment generatePayment(InputDTO object) throws ParkingException;
+	
+	public List<Parking> getAllParkings();
 	
 }
