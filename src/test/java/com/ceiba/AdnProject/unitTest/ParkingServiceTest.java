@@ -19,6 +19,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import com.ceiba.AdnProject.dataBuilderTest.ParkingDataBuilderTest;
 import com.ceiba.AdnProject.dto.InputDTO;
@@ -29,7 +32,9 @@ import com.ceiba.AdnProject.repository.IPaymentRepository;
 import com.ceiba.AdnProject.repository.IPersistenceRepository;
 import com.ceiba.AdnProject.service.ParkingServiceImpl;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@AutoConfigureTestDatabase
 public class ParkingServiceTest {
 
 	@Mock
