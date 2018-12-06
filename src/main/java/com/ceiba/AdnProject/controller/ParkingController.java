@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.ceiba.AdnProject.dto.InputDTO;
 import com.ceiba.AdnProject.model.Parking;
 import com.ceiba.AdnProject.model.Payment;
 import com.ceiba.AdnProject.service.IParkingService;
 
-@CrossOrigin
 @RestController
-@RequestMapping(value = "/parking")
+@CrossOrigin(origins = { "http://localhost:4200" })
 public class ParkingController {
 
 	@Autowired
@@ -45,14 +45,9 @@ public class ParkingController {
 			return new ResponseEntity<Payment>(HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	@GetMapping("/getall")
-	public ResponseEntity<List<Parking>> getAllVehicles() {
-		try {
-			List<Parking> response = _IParkingService.getAllParkings();
-			return new ResponseEntity<List<Parking>>(response, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<List<Parking>>(HttpStatus.BAD_REQUEST);
-		}
+	public List<Parking> getAllVehicles() {
+		return _IParkingService.getAllParkings();
 	}
 }

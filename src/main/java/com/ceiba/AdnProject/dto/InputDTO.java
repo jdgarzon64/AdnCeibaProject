@@ -6,15 +6,17 @@ public class InputDTO implements Serializable{
 
 	public String licence;
 	public String engine;
+	public String type;
 	
 	public InputDTO() {
 		super();
 	}
 	
-	public InputDTO(String licence, String engine) {
+	public InputDTO(String licence, String engine,String type) {
 		super();
 		this.licence = licence;
 		this.engine = engine;
+		this.type = type;
 	}
 
 	public String getLicence() {
@@ -32,4 +34,13 @@ public class InputDTO implements Serializable{
 	public void setEngine(String engine) {
 		this.engine = engine;
 	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+	
 }

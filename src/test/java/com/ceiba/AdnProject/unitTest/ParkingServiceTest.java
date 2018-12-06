@@ -60,7 +60,7 @@ public class ParkingServiceTest {
 	public void saveCarTest() {
 		try {
 			// Arrange
-			InputDTO dto = new InputDTO("qax", "0");
+			InputDTO dto = new InputDTO("qax", "0","");
 			when(_IVehicleFactory.createVehicle(dto)).thenReturn(dataBuilderTest.createCar());
 			when(parkingServiceImpl.findVehicle("")).thenReturn(null);
 			when(_IPersistenceRepository.findAll()).thenReturn(null);
@@ -77,7 +77,7 @@ public class ParkingServiceTest {
 	public void saveMotorcyclePlusEngineTest() {
 		try {
 			// Arrange
-			InputDTO dto = new InputDTO("qax", "0");
+			InputDTO dto = new InputDTO("qax", "0","");
 			when(_IVehicleFactory.createVehicle(dto)).thenReturn(dataBuilderTest.createMotorCyclePlusEngine());
 			when(parkingServiceImpl.findVehicle("")).thenReturn(null);
 			when(_IPersistenceRepository.findAll()).thenReturn(null);
@@ -95,7 +95,7 @@ public class ParkingServiceTest {
 	public void saveMotorcycleTest() {
 		try {
 			// Arrange
-			InputDTO dto = new InputDTO("qax", "0");
+			InputDTO dto = new InputDTO("qax", "0","");
 			when(_IVehicleFactory.createVehicle(dto)).thenReturn(dataBuilderTest.createMotorCycle());
 			when(parkingServiceImpl.findVehicle("")).thenReturn(null);
 			when(_IPersistenceRepository.findAll()).thenReturn(null);
@@ -113,7 +113,7 @@ public class ParkingServiceTest {
 	public void vehicleRegisteredExceptionTest() throws ParkingException {
 		try {
 			// Arrange
-			InputDTO dto = new InputDTO("", "");
+			InputDTO dto = new InputDTO("", "","");
 			List<Parking> list = new ArrayList<Parking>();
 			List<Parking> spyList = Mockito.spy(list);
 			spyList.add(dataBuilderTest.createParkingCar());
@@ -132,7 +132,7 @@ public class ParkingServiceTest {
 	public void parkingCompleteExceptionTest() throws ParkingException {
 		try {
 			// Arrange
-			InputDTO dto = new InputDTO("", "");
+			InputDTO dto = new InputDTO("", "","");
 			ParkingServiceImpl parkingServiceImpl = spy(
 					new ParkingServiceImpl(_IPersistenceRepository, _IPaymentRepository, _IVehicleFactory));
 			Mockito.doReturn(dataBuilderTest.createCar()).when(_IVehicleFactory).createVehicle(dto);
@@ -176,7 +176,7 @@ public class ParkingServiceTest {
 	public void generatePaymentCarTest() {
 		try {
 			// Arrange
-			InputDTO dto = new InputDTO("", "");
+			InputDTO dto = new InputDTO("", "","");
 			ParkingServiceImpl parkingServiceImpl = spy(
 					new ParkingServiceImpl(_IPersistenceRepository, _IPaymentRepository, _IVehicleFactory));
 			Mockito.doReturn(dataBuilderTest.createParkingCar()).when(parkingServiceImpl)
@@ -195,7 +195,7 @@ public class ParkingServiceTest {
 	public void generatePaymentMotorcycleTest() {
 		try {
 			// Arrange
-			InputDTO dto = new InputDTO("", "");
+			InputDTO dto = new InputDTO("", "","");
 			ParkingServiceImpl parkingServiceImpl = spy(
 					new ParkingServiceImpl(_IPersistenceRepository, _IPaymentRepository, _IVehicleFactory));
 			Mockito.doReturn(dataBuilderTest.createParkingMotorcycle()).when(parkingServiceImpl)
@@ -214,7 +214,7 @@ public class ParkingServiceTest {
 	public void generatePaymentMotorcyclePlusTest() {
 		try {
 			// Arrange
-			InputDTO dto = new InputDTO("", "");
+			InputDTO dto = new InputDTO("", "","");
 			ParkingServiceImpl parkingServiceImpl = spy(
 					new ParkingServiceImpl(_IPersistenceRepository, _IPaymentRepository, _IVehicleFactory));
 			Mockito.doReturn(dataBuilderTest.createParkingMotorcyclePlus()).when(parkingServiceImpl)
@@ -233,7 +233,7 @@ public class ParkingServiceTest {
 	public void vehicleUnknowExceptionTest() {
 		try {
 			// Arrange
-			InputDTO dto = new InputDTO("", "");
+			InputDTO dto = new InputDTO("", "","");
 			ParkingServiceImpl parkingServiceImpl = spy(
 					new ParkingServiceImpl(_IPersistenceRepository, _IPaymentRepository, _IVehicleFactory));
 			Mockito.doReturn(null).when(parkingServiceImpl).findVehicle(Mockito.anyString());
