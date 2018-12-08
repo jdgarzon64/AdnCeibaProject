@@ -9,23 +9,25 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
 import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 
 @Entity
 @Table(name = "Parking")
 public class Parking implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+
+	public static final int MAX_CARS = 20;
+	public static final int MAX_MOTORCYCLES = 10;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idParking", unique = true, nullable = false)
+	@Column(name = "id_parking", unique = true, nullable = false)
 	private int idParking;
 
 	@Column(name = "status", nullable = false)
@@ -37,7 +39,11 @@ public class Parking implements Serializable {
 	@Column(name = "dateIn", nullable = false, length = 500)
 	private Date dateIn;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER,orphanRemoval = true, optional = true)
+	
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true,orphanRemoval = true)
+	//@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_vehicle",nullable =false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Vehicle vehicle;
 
 	public Parking() {

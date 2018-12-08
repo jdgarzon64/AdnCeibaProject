@@ -11,14 +11,10 @@ public class VehicleFactoryImpl implements IVehicleFactory{
 
 	@Override
 	public Vehicle createVehicle(InputDTO inputDTO) {
-
-		if (inputDTO.getEngine().equals("0")) {
-			Car car = new Car(inputDTO.getLicence());
-			System.out.println("i am a car :D");
-			return car;
+		if (inputDTO.getType().toUpperCase().equals("CAR")) {
+			return new Car(inputDTO.getLicence());
 		} else {
 			Motorcycle motorcycle = new Motorcycle(inputDTO.getLicence(), inputDTO.getEngine());
-			System.out.println("i am a motorcycle :D");
 			return motorcycle;
 		}
 	}

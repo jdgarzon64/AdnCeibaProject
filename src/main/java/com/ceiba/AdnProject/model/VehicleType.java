@@ -9,11 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.ceiba.AdnProject.model.util.VehicleTypeEnum;
-
 @Entity
 @Table(name = "VehicleType")
 public class VehicleType implements Serializable{
+
 
 	/**
 	 * 
@@ -22,7 +21,7 @@ public class VehicleType implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idType", unique = true, nullable = false)
+	@Column(name = "id_type", unique = true, nullable = false)
 	private int idType;
 	
 	@Column(name = "type", nullable = false)

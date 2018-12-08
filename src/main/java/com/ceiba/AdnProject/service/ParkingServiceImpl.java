@@ -37,11 +37,11 @@ public class ParkingServiceImpl implements IParkingService {
 	private List<Parking> list = new ArrayList<Parking>();
 
 	@Autowired
-	IPersistenceRepository _IPersistenceRepository;
+	private IPersistenceRepository iPersistenceRepository;
 	@Autowired
-	IPaymentRepository _IPaymentRepository;
+	private IPaymentRepository iPaymentRepository;
 	@Autowired
-	IVehicleFactory _IVehicleFactory;
+	private IVehicleFactory iVehicleFactory;
 
 	GregorianCalendar calendario = new GregorianCalendar();
 
@@ -49,47 +49,45 @@ public class ParkingServiceImpl implements IParkingService {
 		super();
 	}
 
-	public ParkingServiceImpl(IPersistenceRepository _IPersistenceRepository, IPaymentRepository _IPaymentRepository,
-			IVehicleFactory _IVehicleFactory) {
-		this._IPaymentRepository = _IPaymentRepository;
-		this._IPersistenceRepository = _IPersistenceRepository;
-		this._IVehicleFactory = _IVehicleFactory;
+	public ParkingServiceImpl(IPersistenceRepository iPersistenceRepository, IPaymentRepository iPaymentRepository,
+			IVehicleFactory iVehicleFactory) {
+		this.iPaymentRepository = iPaymentRepository;
+		this.iPersistenceRepository = iPersistenceRepository;
+		this.iVehicleFactory = iVehicleFactory;
 	}
 
 	@Override
 	public Parking saveVehicle(InputDTO object) throws ParkingException {
-		// getAllVehicles();
-		Vehicle vehicle = _IVehicleFactory.createVehicle(object);
+		Vehicle vehicle = iVehicleFactory.createVehicle(object);
 		Parking p = findVehicle(vehicle.getLicenceNumber().toUpperCase());
 		if (p != null)
 			throw new ParkingException(VEHICLE_REGISTERED_EXCEPTION);
-		if (!completeVehicle(vehicle.getVehicleType().getType().toUpperCase()))
+		if (isCompleteVehicle(vehicle.getVehicleType().getType().toUpperCase()))
 			throw new ParkingException(PARKING_COMPLETE_EXCEPTION);
 		verifyLicence(vehicle.getLicenceNumber());
 		Parking parking = new Parking(true, vehicle.getVehicleType().getType(), vehicle);
-		_IPersistenceRepository.save(parking);
+		iPersistenceRepository.save(parking);
 		return parking;
 	}
 
 	@Override
 	public List<Parking> getAllParkings() {
-		return (List<Parking>) _IPersistenceRepository.findAll();
+		return iPersistenceRepository.findAll();
 	}
 
 	public boolean verifyLicence(String licence) throws ParkingException {
 		Pattern p = Pattern.compile(PATTERN);
 		Matcher m = p.matcher(licence);
-		if (m.find() && verifyDay() == true) {
+		if (m.find() && verifyDay()) {
 			throw new ParkingException(PATTERN_EXCEPTION);
 		}
 		return true;
 	}
 
 	public boolean verifyDay() {
-
 		calendario.setTime(new Date());
-		if (calendario.get(Calendar.DAY_OF_WEEK) == calendario.SUNDAY
-				|| calendario.get(Calendar.DAY_OF_WEEK) == calendario.MONDAY) {
+		if (calendario.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY
+				|| calendario.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
 			return false;
 		}
 		return true;
@@ -105,9 +103,9 @@ public class ParkingServiceImpl implements IParkingService {
 	public Payment generatePayment(InputDTO object) throws ParkingException {
 		return generatePayment(object.getLicence());
 	}
-	
+
 	public void getAllVehicles() {
-		this.list = (List<Parking>) _IPersistenceRepository.findAll();
+		this.list = iPersistenceRepository.findAll();
 	}
 
 	public Parking findVehicle(String licence) {
@@ -119,10 +117,10 @@ public class ParkingServiceImpl implements IParkingService {
 			}
 		}
 		return null;
+
 	}
 
 	public Payment generatePayment(String licence) throws ParkingException {
-		GregorianCalendar calendario = new GregorianCalendar();
 		calendario.setTime(new Date());
 		Parking parking = findVehicle(licence.toUpperCase());
 		if (parking == null)
@@ -130,11 +128,11 @@ public class ParkingServiceImpl implements IParkingService {
 		int timeInside = timeIside(parking.getDateIn(), calendario.getTime());
 		double totalPrice = 0;
 		int priceByHour = 0;
-		if (parking.getVehicle().getVehicleType().getType().equals(VehicleTypeEnum.CAR.name())) {
+		if (parking.getVehicle().getVehicleType().getType().equalsIgnoreCase(VehicleTypeEnum.CAR.name())) {
 			priceByHour = CAR_HOUR;
 			totalPrice = generatePrice(timeInside, 0, CAR_HOUR, CAR_DAY);
-		} else if (parking.getVehicle().getVehicleType().getType().toUpperCase()
-				.equals(VehicleTypeEnum.MOTORCYCLE.name())) {
+		} else if (parking.getVehicle().getVehicleType().getType()
+				.equalsIgnoreCase(VehicleTypeEnum.MOTORCYCLE.name())) {
 			priceByHour = MOTORCYCLE_HOUR;
 			totalPrice = generatePrice(timeInside, 0, MOTORCYCLE_HOUR, MOTORCYCLE_DAY);
 		}
@@ -147,22 +145,14 @@ public class ParkingServiceImpl implements IParkingService {
 		System.out.println("fecha salida " + calendario.getTime().toString());
 		System.out.println("tiempo adentro " + timeInside);
 		System.out.println("precio total" + totalPrice);
-		_IPaymentRepository.save(payment);
+		iPaymentRepository.save(payment);
 		quitVehicle(licence.toUpperCase());
 		return payment;
 	}
 
 	public int timeIside(Date in, Date out) {
-
-		DecimalFormat crunchifyFormatter = new DecimalFormat("###,###");
 		long diff = out.getTime() - in.getTime();
-
-		int diffDays = (int) (diff / (24 * 60 * 60 * 1000));
-		System.out.println("difference between days: " + diffDays);
-
 		int diffhours = (int) (diff / (60 * 60 * 1000));
-		System.out.println("difference between hours: " + crunchifyFormatter.format(diffhours));
-
 		return diffhours;
 	}
 
@@ -185,24 +175,28 @@ public class ParkingServiceImpl implements IParkingService {
 
 	public boolean quitVehicle(String licence) {
 		Parking parking = findVehicle(licence.toUpperCase());
-		_IPersistenceRepository.delete(parking);
+		iPersistenceRepository.delete(parking);
 		return true;
 	}
 
-	public boolean completeVehicle(String type) {
-		getAllVehicles();
+	public int countVehicleByType(String vehicleType) {
 		int count = 0;
 		if (this.list != null) {
 			for (Parking parking : list) {
-				if (parking.getType().toUpperCase().equals(type)) {
+				if (parking.getVehicle().getVehicleType().getType().equals(vehicleType)) {
 					count++;
 				}
 			}
-			if (type.equals(VehicleTypeEnum.MOTORCYCLE.name()) && count >= 10)
-				return false;
-			if (type.equals(VehicleTypeEnum.CAR.name()) && count >= 20)
-				return false;
 		}
+		return count;
+	}
+
+	public boolean isCompleteVehicle(String vehicleType) {
+		int countVehicles = countVehicleByType(vehicleType);
+		if (vehicleType.equals(VehicleTypeEnum.CAR.name()) && countVehicles < Parking.MAX_CARS)
+			return false;
+		if (vehicleType.equals(VehicleTypeEnum.MOTORCYCLE.name()) && countVehicles < Parking.MAX_MOTORCYCLES)
+			return false;
 		return true;
 	}
 
