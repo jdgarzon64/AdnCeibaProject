@@ -10,9 +10,8 @@ public class ParkingException extends Exception {
 	public ParkingException(String message) {
 		super();
 		this.message = message;
-		//this.httpStatus = httpStatus;
 	}
-
+	@Override
 	public String getMessage() {
 		return message;
 	}

@@ -4,6 +4,8 @@ import com.ceiba.AdnProject.model.util.VehicleTypeEnum;
 
 public class Motorcycle extends Vehicle  {
 
+	private final int CAPACIDAD_MAXIMA = 10;
+	
 	public Motorcycle() {
 		super();
 		this.vehicleType = new VehicleType(VehicleTypeEnum.MOTORCYCLE.name());
@@ -14,5 +16,9 @@ public class Motorcycle extends Vehicle  {
 		this.licenceNumber= licence;
 		this.engine = engine;
 		this.vehicleType = new VehicleType(VehicleTypeEnum.MOTORCYCLE.name());
+	}
+	
+	public int obtenerCApacidadMAxima() {
+		return CAPACIDAD_MAXIMA;
 	}
 }

@@ -1,9 +1,13 @@
 package com.ceiba.AdnProject.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import javax.transaction.Transactional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.ceiba.AdnProject.model.Payment;
-
-public interface IPaymentRepository extends CrudRepository<Payment, Long>{
+@Repository
+@Transactional
+public interface IPaymentRepository extends JpaRepository<Payment, Long>{
 
 }

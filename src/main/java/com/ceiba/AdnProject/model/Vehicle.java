@@ -1,7 +1,6 @@
 package com.ceiba.AdnProject.model;
 
 import java.io.Serializable;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,12 +10,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "Vehicle")
-public class Vehicle implements Serializable{
+public class Vehicle implements Serializable {
 
 	/**
 	 * 
@@ -25,22 +25,21 @@ public class Vehicle implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idVehicle", unique = true, nullable = false)
+	@Column(name = "id_vehicle", unique = true, nullable = false)
 	public int idVehicle;
-
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, 
-			optional = true,orphanRemoval = true)
+	
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true,orphanRemoval = true)
+	//@ManyToOne
+	@JoinColumn(name = "id_type")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	public VehicleType vehicleType;
-		
-	@Column(name = "licenceNumber", nullable = false)
+
+	@Column(name = "licence_number", nullable = false)
 	public String licenceNumber;
 
-	@Column(name = "engine", nullable = true)
+	@Column(name = "engine",nullable =false)
 	public String engine;
 
-	//@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
-	//private Parking idParking;
-	
 	public Vehicle() {
 		super();
 	}

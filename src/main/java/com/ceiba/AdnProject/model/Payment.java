@@ -9,16 +9,17 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name="Payment")
 public class Payment implements Serializable{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -26,8 +27,10 @@ public class Payment implements Serializable{
 	@Column(name = "idPayment", unique = true, nullable = false)
 	private int idPayment;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, 
-			optional = true,orphanRemoval = true)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true,orphanRemoval = true)
+	//@ManyToOne
+	@JoinColumn(name = "id_vehicle",nullable =false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Vehicle vehicle;
 	
 	@Column(name = "hourCheckIn", nullable = false)
