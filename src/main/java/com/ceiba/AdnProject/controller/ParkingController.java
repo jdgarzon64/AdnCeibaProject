@@ -21,6 +21,11 @@ public class ParkingController {
 
 	@Autowired
 	private IParkingService IParkingService;
+	
+	public ParkingController(com.ceiba.AdnProject.service.IParkingService iParkingService) {
+		super();
+		IParkingService = iParkingService;
+	}
 
 	@PostMapping("/save")
 	public ResponseEntity<Parking> saveVehicle(@RequestBody(required = true) InputDTO object) {
@@ -38,6 +43,7 @@ public class ParkingController {
 			Payment response = IParkingService.generatePayment(object);
 			return new ResponseEntity<Payment>(response, HttpStatus.OK);
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			return new ResponseEntity<Payment>(HttpStatus.BAD_REQUEST);
 		}
 	}

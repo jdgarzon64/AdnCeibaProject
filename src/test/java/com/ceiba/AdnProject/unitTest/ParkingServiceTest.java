@@ -148,6 +148,25 @@ public class ParkingServiceTest {
 			assertEquals(ParkingServiceImpl.PARKING_COMPLETE_EXCEPTION, e.getMessage());
 		}
 	}
+	
+	@Test
+	public void parkingCompleteExceptionForMotorcycleTest() throws ParkingException {
+		try {
+			// Arrange
+			InputDTO dto = new InputDTO("", "", "");
+			ParkingServiceImpl parkingServiceImpl = spy(
+					new ParkingServiceImpl(_IPersistenceRepository, _IPaymentRepository, _IVehicleFactory));
+			Mockito.doReturn(dataBuilderTest.createMotorcycle()).when(_IVehicleFactory).createVehicle(dto);
+			Mockito.doReturn(null).when(parkingServiceImpl).findVehicle(Mockito.anyString());
+			Mockito.lenient().doReturn(null).when(_IPersistenceRepository).findAll();
+			Mockito.doReturn(false).when(parkingServiceImpl).isCompleteVehicle(Mockito.anyString());
+			// act
+			parkingServiceImpl.saveVehicle(dto);
+		} catch (ParkingException e) {
+			// Assert;
+			assertEquals(ParkingServiceImpl.PARKING_COMPLETE_EXCEPTION, e.getMessage());
+		}
+	}
 
 	@Test
 	public void verifyLicencePatternExceptionTest() {
