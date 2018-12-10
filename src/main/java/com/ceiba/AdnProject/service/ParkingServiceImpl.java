@@ -27,7 +27,7 @@ public class ParkingServiceImpl implements IParkingService {
 	private static final int MOTORCYCLE_DAY = 4000;
 	private static final int MOTORCYCLE_HOUR = 500;
 	private static final int EXTRA_PRICE = 2000;
-	private static final int MAX_ENGINE = 500;
+	public static final int MAX_ENGINE = 500;
 	private static final String PATTERN = "^a|^A";
 	public static final String VEHICLE_UNKNOW = "This Vehicle doesn't exist";
 	public static final String PATTERN_EXCEPTION = "This Vehicle is unauthorized";

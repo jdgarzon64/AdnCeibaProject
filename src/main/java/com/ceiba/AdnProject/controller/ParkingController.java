@@ -20,36 +20,35 @@ import com.ceiba.AdnProject.service.IParkingService;
 public class ParkingController {
 
 	@Autowired
-	private IParkingService IParkingService;
+	private IParkingService iarkingService;
 	
-	public ParkingController(com.ceiba.AdnProject.service.IParkingService iParkingService) {
+	public ParkingController(IParkingService parkingService) {
 		super();
-		IParkingService = iParkingService;
+		iarkingService = parkingService;
 	}
 
 	@PostMapping("/save")
 	public ResponseEntity<Parking> saveVehicle(@RequestBody(required = true) InputDTO object) {
 		try {
-			Parking response = IParkingService.saveVehicle(object);
-			return new ResponseEntity<Parking>(response, HttpStatus.OK);
+			Parking response = iarkingService.saveVehicle(object);
+			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<Parking>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@PostMapping("/payment")
 	public ResponseEntity<Payment> generatePayment(@RequestBody(required = true) InputDTO object) {
 		try {
-			Payment response = IParkingService.generatePayment(object);
-			return new ResponseEntity<Payment>(response, HttpStatus.OK);
+			Payment response = iarkingService.generatePayment(object);
+			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return new ResponseEntity<Payment>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@GetMapping("/getall")
 	public List<Parking> getAllVehicles() {
-		return IParkingService.getAllParkings();
+		return iarkingService.getAllParkings();
 	}
 }

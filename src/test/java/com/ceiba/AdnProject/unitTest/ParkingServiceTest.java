@@ -3,6 +3,7 @@ package com.ceiba.AdnProject.unitTest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
@@ -104,8 +105,7 @@ public class ParkingServiceTest {
 			// act
 			Parking parking = parkingServiceImpl.saveVehicle(dto);
 			// Assert
-			assertEquals(ParkingDataBuilder.LICENCE_MOTORCYCLE,
-					parking.getVehicle().getLicenceNumber().toUpperCase());
+			assertEquals(ParkingDataBuilder.LICENCE_MOTORCYCLE, parking.getVehicle().getLicenceNumber().toUpperCase());
 		} catch (ParkingException e) {
 			e.printStackTrace();
 		}
@@ -129,6 +129,7 @@ public class ParkingServiceTest {
 			assertEquals(ParkingServiceImpl.VEHICLE_REGISTERED_EXCEPTION, e.getMessage());
 		}
 	}
+
 //create test motorcycle
 	@Test
 	public void parkingCompleteExceptionForCarTest() throws ParkingException {
@@ -148,7 +149,7 @@ public class ParkingServiceTest {
 			assertEquals(ParkingServiceImpl.PARKING_COMPLETE_EXCEPTION, e.getMessage());
 		}
 	}
-	
+
 	@Test
 	public void parkingCompleteExceptionForMotorcycleTest() throws ParkingException {
 		try {
@@ -182,10 +183,22 @@ public class ParkingServiceTest {
 	}
 
 	@Test
-	public void verifyDayTest() {
+	public void verifyDaySundayTest() {
 		// Arrange
 		GregorianCalendar c = Mockito.mock(GregorianCalendar.class);
 		Mockito.when(c.get(Calendar.DAY_OF_WEEK)).thenReturn(Calendar.SUNDAY);
+		// act
+		parkingServiceImpl.setCalendario(c);
+		boolean response = parkingServiceImpl.verifyDay();
+		// Assert
+		assertFalse(response);
+	}
+
+	@Test
+	public void verifyDayMondayTest() {
+		// Arrange
+		GregorianCalendar c = Mockito.mock(GregorianCalendar.class);
+		Mockito.when(c.get(Calendar.DAY_OF_WEEK)).thenReturn(Calendar.MONDAY);
 		// act
 		parkingServiceImpl.setCalendario(c);
 		boolean response = parkingServiceImpl.verifyDay();
@@ -267,4 +280,17 @@ public class ParkingServiceTest {
 		}
 	}
 
+	public void verifyMaxEngineTest() {
+		ParkingServiceImpl parkingServiceImpl = spy(
+				new ParkingServiceImpl(_IPersistenceRepository, _IPaymentRepository, _IVehicleFactory));
+		boolean response = parkingServiceImpl.verifyEngine(String.valueOf(ParkingDataBuilder.ENGINE_MOTORCYCLE_PLUS));
+		assertTrue(response);
+	}
+
+	public void verifyMinEngineTest() {
+		ParkingServiceImpl parkingServiceImpl = spy(
+				new ParkingServiceImpl(_IPersistenceRepository, _IPaymentRepository, _IVehicleFactory));
+		boolean response = parkingServiceImpl.verifyEngine(String.valueOf(ParkingDataBuilder.ENGINE_MOTORCYCLE));
+		assertTrue(response);
+	}
 }
