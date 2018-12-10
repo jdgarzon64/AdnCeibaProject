@@ -20,7 +20,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import com.ceiba.AdnProject.dataBuilderTest.ParkingDataBuilderTest;
+import com.ceiba.AdnProject.dataBuilderTest.ParkingDataBuilder;
 import com.ceiba.AdnProject.dto.InputDTO;
 import com.ceiba.AdnProject.exception.ParkingException;
 import com.ceiba.AdnProject.factory.IVehicleFactory;
@@ -44,16 +44,16 @@ public class ParkingServiceTest {
 	@InjectMocks
 	ParkingServiceImpl parkingServiceImpl;
 
-	ParkingDataBuilderTest dataBuilderTest;
+	ParkingDataBuilder dataBuilderTest;
 
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 		parkingServiceImpl = mock(ParkingServiceImpl.class);
-		dataBuilderTest = mock(ParkingDataBuilderTest.class);
+		dataBuilderTest = mock(ParkingDataBuilder.class);
 		parkingServiceImpl = spy(
 				new ParkingServiceImpl(_IPersistenceRepository, _IPaymentRepository, _IVehicleFactory));
-		this.dataBuilderTest = new ParkingDataBuilderTest();
+		this.dataBuilderTest = new ParkingDataBuilder();
 	}
 
 	@Test
@@ -68,7 +68,7 @@ public class ParkingServiceTest {
 			// act
 			Parking parking = parkingServiceImpl.saveVehicle(dto);
 			// Assert
-			assertEquals(ParkingDataBuilderTest.LICENCE_CAR, parking.getVehicle().getLicenceNumber().toUpperCase());
+			assertEquals(ParkingDataBuilder.LICENCE_CAR, parking.getVehicle().getLicenceNumber().toUpperCase());
 
 		} catch (ParkingException e) {
 			e.printStackTrace();
@@ -86,7 +86,7 @@ public class ParkingServiceTest {
 			// act
 			Parking parking = parkingServiceImpl.saveVehicle(dto);
 			// Assert
-			assertEquals(ParkingDataBuilderTest.LICENCE_MOTORCYCLE_PLUS,
+			assertEquals(ParkingDataBuilder.LICENCE_MOTORCYCLE_PLUS,
 					parking.getVehicle().getLicenceNumber().toUpperCase());
 		} catch (ParkingException e) {
 			e.printStackTrace();
@@ -104,7 +104,7 @@ public class ParkingServiceTest {
 			// act
 			Parking parking = parkingServiceImpl.saveVehicle(dto);
 			// Assert
-			assertEquals(ParkingDataBuilderTest.LICENCE_MOTORCYCLE,
+			assertEquals(ParkingDataBuilder.LICENCE_MOTORCYCLE,
 					parking.getVehicle().getLicenceNumber().toUpperCase());
 		} catch (ParkingException e) {
 			e.printStackTrace();

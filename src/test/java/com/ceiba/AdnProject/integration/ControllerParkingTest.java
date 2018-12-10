@@ -35,13 +35,12 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 @AutoConfigureTestDatabase
 public class ControllerParkingTest {
 	private TestRestTemplate restTemplate = new TestRestTemplate();
-	
 
 	@Mock
 	ParkingServiceImpl parkingServiceImpl;
-	
+
 	@LocalServerPort
-	private int localServerPort; 
+	private int localServerPort;
 	MockMvc mockMvc;
 	@Mock
 	private IParkingService iParkingService;
@@ -49,9 +48,11 @@ public class ControllerParkingTest {
 	private ParkingController parkingController;
 
 	String inputCar;
+	String inputCarException;
 	String outputSaveCar;
 	Parking parkingCar;
 	InputDTO dtoCar;
+	InputDTO dtoCarException;
 	InputDTO dtoMotorcycle;
 	InputDTO dtoMotorcyclePlus;
 	Gson gson;
@@ -60,18 +61,16 @@ public class ControllerParkingTest {
 	public void setUp() {
 		mockMvc = MockMvcBuilders.standaloneSetup(parkingController).build();
 		parkingController = new ParkingController(iParkingService);
-		
-		
-		
+
 		SqlDateTypeAdapter sqlAdapter = new SqlDateTypeAdapter();
 		gson = new GsonBuilder().registerTypeAdapter(java.sql.Date.class, sqlAdapter).setDateFormat("yyyy-MM-dd")
 				.create();
 
-		inputCar = "{\r\n" + "	\"licence\":\"1\",\r\n" + "	\"engine\":\"0\",\r\n" + "	\"type\":\"car\"\r\n"
-				+ "}";
-		String inputMotorcycle = "{\r\n" + "	\"licence\":\"1\",\r\n" + "	\"engine\":\"440\",\r\n"
+		inputCar = "{\r\n" + "	\"licence\":\"1\",\r\n" + "	\"engine\":\"0\",\r\n" + "	\"type\":\"car\"\r\n" + "}";
+		inputCarException = "{\r\n" + "	\"licence\":\"4\",\r\n" + "	\"engine\":\"0\",\r\n" + "	\"type\":\"car\"\r\n" + "}";
+		String inputMotorcycle = "{\r\n" + "	\"licence\":\"2\",\r\n" + "	\"engine\":\"600\",\r\n"
 				+ "	\"type\":\"motorcycle\"\r\n" + "}";
-		String inputMotorcyclePlus = "{\r\n" + "	\"licence\":\"1\",\r\n" + "	\"engine\":\"600\",\r\n"
+		String inputMotorcyclePlus = "{\r\n" + "	\"licence\":\"3\",\r\n" + "	\"engine\":\"600\",\r\n"
 				+ "	\"type\":\"motorcycle\"\r\n" + "}";
 
 		outputSaveCar = "{\r\n" + "  \"idParking\": 1,\r\n" + "  \"status\": true,\r\n" + "  \"type\": \"CAR\",\r\n"
@@ -79,41 +78,55 @@ public class ControllerParkingTest {
 				+ "    \"vehicleType\": {\r\n" + "      \"idType\": 1,\r\n" + "      \"type\": \"CAR\"\r\n"
 				+ "    },\r\n" + "    \"licenceNumber\": \"1\",\r\n" + "    \"engine\": \"0\"\r\n" + "  }\r\n" + "}";
 		dtoCar = gson.fromJson(inputCar, InputDTO.class);
+		dtoCarException = gson.fromJson(inputCarException, InputDTO.class);
 		dtoMotorcycle = gson.fromJson(inputMotorcycle, InputDTO.class);
 		dtoMotorcyclePlus = gson.fromJson(inputMotorcyclePlus, InputDTO.class);
-
-		parkingCar = gson.fromJson(outputSaveCar, Parking.class);
-		System.out.println("cariito " + gson.toJson(parkingCar));
-
 	}
 
-	
 	@Test
 	public void generatePaymentTest() {
 
 		try {
-			this.saveParkingTest();
+			this.saveParkingCarTest();
 			Mockito.doReturn(new Parking()).when(parkingServiceImpl).findVehicle("");
 			when(parkingServiceImpl.findVehicle("")).thenReturn(new Parking());
-			URI uri = new URI("http://localhost:"+localServerPort+"/payment");
-			ResponseEntity<Payment> response = restTemplate.postForEntity(uri, dtoCar,
-					Payment.class);
+			URI uri = new URI("http://localhost:" + localServerPort + "/payment");
+			ResponseEntity<Payment> response = restTemplate.postForEntity(uri, dtoCar, Payment.class);
 			assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
 		} catch (Exception e) {
 			System.out.println("exception " + e.getMessage());
 			e.printStackTrace();
 		}
-		
 
 	}
-	
+
 	@Test
-	public void saveParkingTest() {
+	public void saveParkingCarTest() {
 		try {
 			when(parkingServiceImpl.findVehicle("")).thenReturn(new Parking());
-			URI uri = new URI("http://localhost:"+localServerPort+"/save");
-			ResponseEntity<Parking> response = restTemplate.postForEntity(uri, dtoCar,
-					Parking.class);
+			URI uri = new URI("http://localhost:" + localServerPort + "/save");
+			ResponseEntity<Parking> response = restTemplate.postForEntity(uri, dtoCar, Parking.class);
+			assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
+		} catch (Exception e) {
+			System.out.println("exception " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	/*
+	 * @Test public void getAllParkingTest() { try { URI uri = new
+	 * URI("http://localhost:" + localServerPort + "/getall");
+	 * ResponseEntity<Parking> response = restTemplate.getForEntity(uri,
+	 * Parking.class); assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
+	 * } catch (Exception e) { System.out.println("exception " + e.getMessage());
+	 * e.printStackTrace(); } }
+	 */
+	@Test
+	public void saveParkingMotorcycleTest() {
+		try {
+			when(parkingServiceImpl.findVehicle("")).thenReturn(new Parking());
+			URI uri = new URI("http://localhost:" + localServerPort + "/save");
+			ResponseEntity<Parking> response = restTemplate.postForEntity(uri, dtoMotorcycle, Parking.class);
 			assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
 		} catch (Exception e) {
 			System.out.println("exception " + e.getMessage());
@@ -122,10 +135,11 @@ public class ControllerParkingTest {
 	}
 
 	@Test
-	public void getAllParkingTest() {
+	public void saveParkingMotorcyclePlusTest() {
 		try {
-			URI uri = new URI("http://localhost:"+localServerPort+"/getall");
-			ResponseEntity<Parking> response = restTemplate.getForEntity(uri,Parking.class);
+			when(parkingServiceImpl.findVehicle("")).thenReturn(new Parking());
+			URI uri = new URI("http://localhost:" + localServerPort + "/save");
+			ResponseEntity<Parking> response = restTemplate.postForEntity(uri, dtoMotorcyclePlus, Parking.class);
 			assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
 		} catch (Exception e) {
 			System.out.println("exception " + e.getMessage());
@@ -133,4 +147,29 @@ public class ControllerParkingTest {
 		}
 	}
 
+	@Test
+	public void saveParkingExceptionBadRequestTest() {
+		try {
+			when(parkingServiceImpl.findVehicle("")).thenReturn(null);
+			URI uri = new URI("http://localhost:" + localServerPort + "/save");
+			ResponseEntity<Parking> response = restTemplate.postForEntity(uri, dtoCar, Parking.class);
+			assertThat(response.getStatusCode(), equalTo(HttpStatus.BAD_REQUEST));
+		} catch (Exception e) {
+			System.out.println("exception " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void generatePaymentBadRequestTest() {
+		try {
+			URI uri = new URI("http://localhost:" + localServerPort + "/payment");
+			ResponseEntity<Payment> response = restTemplate.postForEntity(uri, dtoCarException, Payment.class);
+			assertThat(response.getStatusCode(), equalTo(HttpStatus.BAD_REQUEST));
+		} catch (Exception e) {
+			System.out.println("exception " + e.getMessage());
+			e.printStackTrace();
+		}
+
+	}
 }
