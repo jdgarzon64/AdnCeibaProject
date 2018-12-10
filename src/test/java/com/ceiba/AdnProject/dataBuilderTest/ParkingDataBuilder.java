@@ -10,7 +10,7 @@ import com.ceiba.AdnProject.model.Parking;
 import com.ceiba.AdnProject.model.Vehicle;
 import com.ceiba.AdnProject.model.util.VehicleTypeEnum;
 
-public class ParkingDataBuilderTest {
+public class ParkingDataBuilder {
 
 	public static final String LICENCE_CAR = "EBC123";
 	public static final String LICENCE_MOTORCYCLE = "QWE123";

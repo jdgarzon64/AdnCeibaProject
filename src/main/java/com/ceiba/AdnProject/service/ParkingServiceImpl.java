@@ -1,6 +1,5 @@
 package com.ceiba.AdnProject.service;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -112,7 +111,7 @@ public class ParkingServiceImpl implements IParkingService {
 		getAllVehicles();
 		if (this.list != null) {
 			for (Parking parking : this.list) {
-				if (parking.getVehicle().getLicenceNumber().toUpperCase().equals(licence))
+				if (parking.getVehicle().getLicenceNumber().equalsIgnoreCase(licence))
 					return parking;
 			}
 		}
@@ -152,7 +151,7 @@ public class ParkingServiceImpl implements IParkingService {
 		return diffhours;
 	}
 
-	public double generatePrice(int hours, double price, int vehicleHour, int VehicleDay) {
+	public double generatePrice(int hours, double price, int vehicleHour, int vehicleDay) {
 		if (hours == 0) {
 			price += vehicleHour;
 		}
@@ -160,11 +159,11 @@ public class ParkingServiceImpl implements IParkingService {
 			price += (hours + 1) * vehicleHour;
 		}
 		if (hours >= 9 && hours < 24) {
-			price += VehicleDay;
+			price += vehicleDay;
 		}
 		if (hours >= 24) {
-			price += VehicleDay;
-			return generatePrice(hours - 24, price, vehicleHour, VehicleDay);
+			price += vehicleDay;
+			return generatePrice(hours - 24, price, vehicleHour, vehicleDay);
 		}
 		return price;
 	}

@@ -3,7 +3,7 @@ package com.ceiba.AdnProject.model;
 import com.ceiba.AdnProject.model.util.VehicleTypeEnum;
 
 public class Car extends Vehicle {
-	private final int CAPACIDAD_MAXIMA = 20;
+
 
 	public Car() {
 		super();
@@ -17,7 +17,4 @@ public class Car extends Vehicle {
 		this.engine = "0";
 	}
 
-	public int obtenerCApacidadMAxima() {
-		return CAPACIDAD_MAXIMA;
-	}
 }
