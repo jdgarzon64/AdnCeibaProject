@@ -141,10 +141,6 @@ public class ParkingServiceImpl implements IParkingService {
 		}
 		Payment payment = new Payment(parking.getVehicle(), parking.getDateIn().toString(),
 				calendario.getTime().toString(), timeInside, String.valueOf(priceByHour), String.valueOf(totalPrice));
-		System.out.println("fecha entrada " + parking.getDateIn().toString());
-		System.out.println("fecha salida " + calendario.getTime().toString());
-		System.out.println("tiempo adentro " + timeInside);
-		System.out.println("precio total" + totalPrice);
 		iPaymentRepository.save(payment);
 		quitVehicle(licence.toUpperCase());
 		return payment;
