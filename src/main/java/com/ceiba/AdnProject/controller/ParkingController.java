@@ -51,4 +51,5 @@ public class ParkingController {
 	public List<Parking> getAllVehicles() {
 		return iParkingService.getAllParkings();
 	}
+	
 }
