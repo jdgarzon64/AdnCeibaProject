@@ -17,7 +17,10 @@ public class ParkingDataBuilder {
 	public static final String LICENCE_MOTORCYCLE_PLUS = "ZXC123";
 	public static final String ENGINE_MOTORCYCLE = "400";
 	public static final String ENGINE_MOTORCYCLE_PLUS = "600";
-
+	public static final String DATE = "2018-12-04T5:08:56.235-07:00 ";
+	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+	Date dateMock;
+	
 	public Vehicle createMotorCycle() {
 		return new Motorcycle(LICENCE_MOTORCYCLE, ENGINE_MOTORCYCLE);
 	}
@@ -27,25 +30,23 @@ public class ParkingDataBuilder {
 	}
 
 	public Vehicle createCar() {
-		return new Car(LICENCE_CAR);
+		return new Car(LICENCE_CAR, ENGINE_MOTORCYCLE);
 	}
+
 	public Vehicle createMotorcycle() {
-		return new Motorcycle(LICENCE_MOTORCYCLE,ENGINE_MOTORCYCLE);
+		return new Motorcycle(LICENCE_MOTORCYCLE, ENGINE_MOTORCYCLE);
 	}
+
 	public Vehicle createMotorcyclePlus() {
-		return new Motorcycle(LICENCE_MOTORCYCLE_PLUS,ENGINE_MOTORCYCLE_PLUS);
+		return new Motorcycle(LICENCE_MOTORCYCLE_PLUS, ENGINE_MOTORCYCLE_PLUS);
 	}
+
 	public Parking createParkingCar() {
-		// boolean status, String type, Vehicle vehicle
 		Parking parking = new Parking(true, VehicleTypeEnum.CAR.name(), createCar());
-		String date = "2018-12-04T5:08:56.235-07:00 ";
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-		Date dateMock;
 		try {
-			dateMock = formatter.parse(date);
+			dateMock = formatter.parse(DATE);
 			parking.setDateIn(dateMock);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -53,16 +54,11 @@ public class ParkingDataBuilder {
 	}
 
 	public Parking createParkingMotorcyclePlus() {
-		// boolean status, String type, Vehicle vehicle
 		Parking parking = new Parking(true, VehicleTypeEnum.MOTORCYCLE.name(), createMotorcyclePlus());
-		String date = "2018-12-04T5:08:56.235-07:00 ";
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-		Date dateMock;
 		try {
-			dateMock = formatter.parse(date);
+			dateMock = formatter.parse(DATE);
 			parking.setDateIn(dateMock);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -70,19 +66,13 @@ public class ParkingDataBuilder {
 	}
 
 	public Parking createParkingMotorcycle() {
-		// boolean status, String type, Vehicle vehicle
 		Parking parking = new Parking(true, VehicleTypeEnum.CAR.name(), createMotorcycle());
-		String date = "2018-12-04T5:08:56.235-07:00 ";
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-		Date dateMock;
 		try {
-			dateMock = formatter.parse(date);
+			dateMock = formatter.parse(DATE);
 			parking.setDateIn(dateMock);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		return parking;
 	}
 }

@@ -14,7 +14,7 @@ public static String LICENCE_INVALID=	"Licence Invalid";
 	public Vehicle createVehicle(InputDTO inputDTO) throws ParkingException{
 		if(!verifyLicence(inputDTO.getEngine()))  throw new ParkingException (LICENCE_INVALID);
 		if (inputDTO.getType().equalsIgnoreCase("CAR")) {
-			return new Car(inputDTO.getLicence());
+			return new Car(inputDTO.getLicence(),inputDTO.getEngine());
 		} else {
 			Motorcycle motorcycle = new Motorcycle(inputDTO.getLicence(), inputDTO.getEngine());
 			return motorcycle;
