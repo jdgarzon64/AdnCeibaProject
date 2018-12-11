@@ -20,6 +20,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import com.ceiba.AdnProject.dataBuilderTest.ParkingDataBuilder;
 import com.ceiba.adnproject.dto.InputDTO;
@@ -34,6 +35,7 @@ import com.ceiba.adnproject.service.ParkingServiceImpl;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureTestDatabase
+@ContextConfiguration
 public class ParkingServiceTest {
 
 	@Mock
