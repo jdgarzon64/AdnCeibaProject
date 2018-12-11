@@ -1,4 +1,4 @@
-package com.ceiba.AdnProject.unitTest;
+package com.ceiba.adnproject.unitTest;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -22,7 +22,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import com.ceiba.AdnProject.dataBuilderTest.ParkingDataBuilder;
+import com.ceiba.adnproject.dataBuilderTest.ParkingDataBuilder;
 import com.ceiba.adnproject.dto.InputDTO;
 import com.ceiba.adnproject.exception.ParkingException;
 import com.ceiba.adnproject.factory.IVehicleFactory;

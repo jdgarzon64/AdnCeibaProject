@@ -1,4 +1,4 @@
-package com.ceiba.AdnProject.integration;
+package com.ceiba.adnproject.integration;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;

@@ -1,4 +1,4 @@
-package com.ceiba.AdnProject.dataBuilderTest;
+package com.ceiba.adnproject.dataBuilderTest;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

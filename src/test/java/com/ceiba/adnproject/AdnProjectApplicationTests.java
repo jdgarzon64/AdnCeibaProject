@@ -1,4 +1,4 @@
-package com.ceiba.AdnProject;
+package com.ceiba.adnproject;
 
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
