@@ -1,4 +1,4 @@
-package com.ceiba.AdnProject.model;
+package com.ceiba.adnproject.model;
 
 import java.io.Serializable;
 import java.util.Date;

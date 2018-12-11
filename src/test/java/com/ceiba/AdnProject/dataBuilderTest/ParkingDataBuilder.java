@@ -4,11 +4,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.ceiba.AdnProject.model.Car;
-import com.ceiba.AdnProject.model.Motorcycle;
-import com.ceiba.AdnProject.model.Parking;
-import com.ceiba.AdnProject.model.Vehicle;
-import com.ceiba.AdnProject.model.util.VehicleTypeEnum;
+import com.ceiba.adnproject.model.Car;
+import com.ceiba.adnproject.model.Motorcycle;
+import com.ceiba.adnproject.model.Parking;
+import com.ceiba.adnproject.model.Vehicle;
+import com.ceiba.adnproject.model.util.VehicleTypeEnum;
 
 public class ParkingDataBuilder {
 

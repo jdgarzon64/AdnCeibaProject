@@ -1,8 +1,8 @@
-package com.ceiba.AdnProject.factory;
+package com.ceiba.adnproject.factory;
 
-import com.ceiba.AdnProject.dto.InputDTO;
-import com.ceiba.AdnProject.exception.ParkingException;
-import com.ceiba.AdnProject.model.Vehicle;
+import com.ceiba.adnproject.dto.InputDTO;
+import com.ceiba.adnproject.exception.ParkingException;
+import com.ceiba.adnproject.model.Vehicle;
 
 public interface IVehicleFactory {
 

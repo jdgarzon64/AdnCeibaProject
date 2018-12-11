@@ -22,14 +22,14 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import com.ceiba.AdnProject.dataBuilderTest.ParkingDataBuilder;
-import com.ceiba.AdnProject.dto.InputDTO;
-import com.ceiba.AdnProject.exception.ParkingException;
-import com.ceiba.AdnProject.factory.IVehicleFactory;
-import com.ceiba.AdnProject.model.Parking;
-import com.ceiba.AdnProject.model.Payment;
-import com.ceiba.AdnProject.repository.IPaymentRepository;
-import com.ceiba.AdnProject.repository.IPersistenceRepository;
-import com.ceiba.AdnProject.service.ParkingServiceImpl;
+import com.ceiba.adnproject.dto.InputDTO;
+import com.ceiba.adnproject.exception.ParkingException;
+import com.ceiba.adnproject.factory.IVehicleFactory;
+import com.ceiba.adnproject.model.Parking;
+import com.ceiba.adnproject.model.Payment;
+import com.ceiba.adnproject.repository.IPaymentRepository;
+import com.ceiba.adnproject.repository.IPersistenceRepository;
+import com.ceiba.adnproject.service.ParkingServiceImpl;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

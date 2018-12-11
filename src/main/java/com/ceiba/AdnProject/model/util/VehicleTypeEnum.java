@@ -1,4 +1,4 @@
-package com.ceiba.AdnProject.model.util;
+package com.ceiba.adnproject.model.util;
 
 public enum VehicleTypeEnum {
 	MOTORCYCLE, CAR

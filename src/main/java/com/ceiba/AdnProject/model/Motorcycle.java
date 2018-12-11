@@ -1,8 +1,12 @@
-package com.ceiba.AdnProject.model;
-
-import com.ceiba.AdnProject.model.util.VehicleTypeEnum;
+package com.ceiba.adnproject.model;
+import com.ceiba.adnproject.model.util.VehicleTypeEnum;
 
 public class Motorcycle extends Vehicle  {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public Motorcycle(String licence,String engine) {
 		super();

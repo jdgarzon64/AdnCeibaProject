@@ -1,23 +1,22 @@
-package com.ceiba.AdnProject.factory;
+package com.ceiba.adnproject.factory;
 
 import org.springframework.stereotype.Service;
 
-import com.ceiba.AdnProject.dto.InputDTO;
-import com.ceiba.AdnProject.exception.ParkingException;
-import com.ceiba.AdnProject.model.Car;
-import com.ceiba.AdnProject.model.Motorcycle;
-import com.ceiba.AdnProject.model.Vehicle;
+import com.ceiba.adnproject.dto.InputDTO;
+import com.ceiba.adnproject.exception.ParkingException;
+import com.ceiba.adnproject.model.Car;
+import com.ceiba.adnproject.model.Motorcycle;
+import com.ceiba.adnproject.model.Vehicle;
 @Service
 public class VehicleFactoryImpl implements IVehicleFactory{
-public static String LICENCE_INVALID=	"Licence Invalid";
+public static final String LICENCE_INVALID=	"Licence Invalid";
 	@Override
 	public Vehicle createVehicle(InputDTO inputDTO) throws ParkingException{
 		if(!verifyLicence(inputDTO.getEngine()))  throw new ParkingException (LICENCE_INVALID);
 		if (inputDTO.getType().equalsIgnoreCase("CAR")) {
 			return new Car(inputDTO.getLicence(),inputDTO.getEngine());
 		} else {
-			Motorcycle motorcycle = new Motorcycle(inputDTO.getLicence(), inputDTO.getEngine());
-			return motorcycle;
+			return new Motorcycle(inputDTO.getLicence(), inputDTO.getEngine());
 		}
 	}
 	
