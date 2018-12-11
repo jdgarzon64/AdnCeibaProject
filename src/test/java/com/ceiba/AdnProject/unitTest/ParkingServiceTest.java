@@ -218,7 +218,6 @@ public class ParkingServiceTest {
 			// Act
 			Payment payment = parkingServiceImpl.generatePayment(dto);
 			// Assert
-			System.out.println("precio " + payment.getTotalPrice());
 			assertNotNull(payment);
 		} catch (ParkingException e) {
 			System.out.println(e.getMessage());
@@ -237,7 +236,6 @@ public class ParkingServiceTest {
 			// Act
 			Payment payment = parkingServiceImpl.generatePayment(dto);
 			// Assert
-			System.out.println("precio " + payment.getTotalPrice());
 			assertNotNull(payment);
 		} catch (ParkingException e) {
 			System.out.println(e.getMessage());
@@ -256,7 +254,6 @@ public class ParkingServiceTest {
 			// Act
 			Payment payment = parkingServiceImpl.generatePayment(dto);
 			// Assert
-			System.out.println("precio " + payment.getTotalPrice());
 			assertNotNull(payment);
 		} catch (ParkingException e) {
 			System.out.println(e.getMessage());
@@ -274,7 +271,6 @@ public class ParkingServiceTest {
 			// Act
 			parkingServiceImpl.generatePayment(dto);
 		} catch (ParkingException e) {
-			System.out.println(e.getMessage());
 			// Assert
 			assertEquals(ParkingServiceImpl.VEHICLE_UNKNOW, e.getMessage());
 		}
