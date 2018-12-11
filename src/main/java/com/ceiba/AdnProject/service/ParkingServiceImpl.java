@@ -1,4 +1,4 @@
-package com.ceiba.AdnProject.service;
+package com.ceiba.adnproject.service;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -12,15 +12,15 @@ import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ceiba.AdnProject.dto.InputDTO;
-import com.ceiba.AdnProject.exception.ParkingException;
-import com.ceiba.AdnProject.factory.IVehicleFactory;
-import com.ceiba.AdnProject.model.Parking;
-import com.ceiba.AdnProject.model.Payment;
-import com.ceiba.AdnProject.model.Vehicle;
-import com.ceiba.AdnProject.model.util.VehicleTypeEnum;
-import com.ceiba.AdnProject.repository.IPaymentRepository;
-import com.ceiba.AdnProject.repository.IPersistenceRepository;
+import com.ceiba.adnproject.dto.InputDTO;
+import com.ceiba.adnproject.exception.ParkingException;
+import com.ceiba.adnproject.factory.IVehicleFactory;
+import com.ceiba.adnproject.model.Parking;
+import com.ceiba.adnproject.model.Payment;
+import com.ceiba.adnproject.model.Vehicle;
+import com.ceiba.adnproject.model.util.VehicleTypeEnum;
+import com.ceiba.adnproject.repository.IPaymentRepository;
+import com.ceiba.adnproject.repository.IPersistenceRepository;
 
 @Service
 public class ParkingServiceImpl implements IParkingService {
@@ -35,7 +35,7 @@ public class ParkingServiceImpl implements IParkingService {
 	public static final String PATTERN_EXCEPTION = "This Vehicle is unauthorized";
 	public static final String VEHICLE_REGISTERED_EXCEPTION = "This Vehicle is alredeady resgistered";
 	public static final String PARKING_COMPLETE_EXCEPTION = "Sorry but we dont have space for your vehicle";
-	private List<Parking> list = new ArrayList<Parking>();
+	private List<Parking> list = new ArrayList<>();
 
 	@Autowired
 	private IPersistenceRepository iPersistenceRepository;
@@ -150,8 +150,8 @@ public class ParkingServiceImpl implements IParkingService {
 
 	public int timeIside(Date in, Date out) {
 		long diff = out.getTime() - in.getTime();
-		int diffhours = (int) (diff / (60 * 60 * 1000));
-		return diffhours;
+		 return (int) (diff / (60 * 60 * 1000));
+
 	}
 
 	public double generatePrice(int hours, double price, int vehicleHour, int vehicleDay) {

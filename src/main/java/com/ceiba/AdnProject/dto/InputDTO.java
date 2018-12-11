@@ -1,9 +1,13 @@
-package com.ceiba.AdnProject.dto;
+package com.ceiba.adnproject.dto;
 
 import java.io.Serializable;
 
 public class InputDTO implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public String licence;
 	public String engine;
 	public String type;

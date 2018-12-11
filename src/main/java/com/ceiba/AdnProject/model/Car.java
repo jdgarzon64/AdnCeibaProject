@@ -1,14 +1,19 @@
-package com.ceiba.AdnProject.model;
+package com.ceiba.adnproject.model;
 
-import com.ceiba.AdnProject.model.util.VehicleTypeEnum;
+import com.ceiba.adnproject.model.util.VehicleTypeEnum;
 
 public class Car extends Vehicle {
 
-	public Car(String licence) {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public Car(String licence,String engine) {
 		super();
 		this.vehicleType = new VehicleType(VehicleTypeEnum.CAR.name());
 		this.licenceNumber = licence;
-		this.engine = "0";
+		this.engine = engine;
 	}
 
 }

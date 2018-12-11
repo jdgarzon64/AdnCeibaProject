@@ -1,7 +1,6 @@
-package com.ceiba.AdnProject.controller;
+package com.ceiba.adnproject.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,27 +9,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.ceiba.AdnProject.dto.InputDTO;
-import com.ceiba.AdnProject.model.Parking;
-import com.ceiba.AdnProject.model.Payment;
-import com.ceiba.AdnProject.service.IParkingService;
+
+import com.ceiba.adnproject.model.Payment;
+import com.ceiba.adnproject.dto.InputDTO;
+import com.ceiba.adnproject.model.Parking;
+import com.ceiba.adnproject.service.IParkingService;
 
 @RestController
 @CrossOrigin(origins = { "http://localhost:4200" })
 public class ParkingController {
 
 	@Autowired
-	private IParkingService iarkingService;
+	private IParkingService iParkingService;
 	
 	public ParkingController(IParkingService parkingService) {
 		super();
-		iarkingService = parkingService;
+		iParkingService = parkingService;
 	}
 
 	@PostMapping("/save")
 	public ResponseEntity<Parking> saveVehicle(@RequestBody(required = true) InputDTO object) {
 		try {
-			Parking response = iarkingService.saveVehicle(object);
+			Parking response = iParkingService.saveVehicle(object);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -40,7 +40,7 @@ public class ParkingController {
 	@PostMapping("/payment")
 	public ResponseEntity<Payment> generatePayment(@RequestBody(required = true) InputDTO object) {
 		try {
-			Payment response = iarkingService.generatePayment(object);
+			Payment response = iParkingService.generatePayment(object);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -49,6 +49,6 @@ public class ParkingController {
 
 	@GetMapping("/getall")
 	public List<Parking> getAllVehicles() {
-		return iarkingService.getAllParkings();
+		return iParkingService.getAllParkings();
 	}
 }

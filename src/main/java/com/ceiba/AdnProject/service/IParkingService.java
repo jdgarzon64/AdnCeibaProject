@@ -1,11 +1,11 @@
-package com.ceiba.AdnProject.service;
+package com.ceiba.adnproject.service;
 
 import java.util.List;
 
-import com.ceiba.AdnProject.dto.InputDTO;
-import com.ceiba.AdnProject.exception.ParkingException;
-import com.ceiba.AdnProject.model.Parking;
-import com.ceiba.AdnProject.model.Payment;
+import com.ceiba.adnproject.dto.InputDTO;
+import com.ceiba.adnproject.exception.ParkingException;
+import com.ceiba.adnproject.model.Parking;
+import com.ceiba.adnproject.model.Payment;
 
 public interface IParkingService {
 
