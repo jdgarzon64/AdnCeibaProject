@@ -1,5 +1,7 @@
 package com.ceiba.AdnProject.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -43,7 +45,6 @@ public class ParkingServiceImpl implements IParkingService {
 	private IVehicleFactory iVehicleFactory;
 
 	GregorianCalendar calendario = new GregorianCalendar();
-
 	public ParkingServiceImpl() {
 		super();
 	}
@@ -138,8 +139,10 @@ public class ParkingServiceImpl implements IParkingService {
 		if (Integer.parseInt(parking.getVehicle().getEngine()) > MAX_ENGINE) {
 			totalPrice += EXTRA_PRICE;
 		}
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
 		Payment payment = new Payment(parking.getVehicle(), parking.getDateIn().toString(),
-				calendario.getTime().toString(), timeInside, String.valueOf(priceByHour), String.valueOf(totalPrice));
+				String.valueOf(dateFormat.format(date)), timeInside, String.valueOf(priceByHour), String.valueOf(totalPrice));
 		iPaymentRepository.save(payment);
 		quitVehicle(licence.toUpperCase());
 		return payment;
