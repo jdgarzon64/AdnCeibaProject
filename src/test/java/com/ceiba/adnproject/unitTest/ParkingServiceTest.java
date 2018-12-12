@@ -22,6 +22,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import com.ceiba.adnproject.constants.InvalidMessageResponse;
 import com.ceiba.adnproject.dataBuilderTest.ParkingDataBuilder;
 import com.ceiba.adnproject.dto.InputDTO;
 import com.ceiba.adnproject.exception.ParkingException;
@@ -128,7 +130,7 @@ public class ParkingServiceTest {
 			parkingServiceImpl.saveVehicle(dto);
 		} catch (ParkingException e) {
 			// Assert
-			assertEquals(ParkingServiceImpl.VEHICLE_REGISTERED_EXCEPTION, e.getMessage());
+			assertEquals(InvalidMessageResponse.VEHICLE_REGISTERED_EXCEPTION, e.getMessage());
 		}
 	}
 
@@ -148,7 +150,7 @@ public class ParkingServiceTest {
 			parkingServiceImpl.saveVehicle(dto);
 		} catch (ParkingException e) {
 			// Assert;
-			assertEquals(ParkingServiceImpl.PARKING_COMPLETE_EXCEPTION, e.getMessage());
+			assertEquals(InvalidMessageResponse.PARKING_COMPLETE_EXCEPTION, e.getMessage());
 		}
 	}
 
@@ -167,7 +169,7 @@ public class ParkingServiceTest {
 			parkingServiceImpl.saveVehicle(dto);
 		} catch (ParkingException e) {
 			// Assert;
-			assertEquals(ParkingServiceImpl.PARKING_COMPLETE_EXCEPTION, e.getMessage());
+			assertEquals(InvalidMessageResponse.PARKING_COMPLETE_EXCEPTION, e.getMessage());
 		}
 	}
 
@@ -180,7 +182,7 @@ public class ParkingServiceTest {
 			parkingServiceImpl.verifyLicence("a");
 		} catch (ParkingException e) {
 			// Assert;
-			assertEquals(ParkingServiceImpl.PATTERN_EXCEPTION, e.getMessage());
+			assertEquals(InvalidMessageResponse.PATTERN_EXCEPTION, e.getMessage());
 		}
 	}
 
@@ -274,7 +276,7 @@ public class ParkingServiceTest {
 			parkingServiceImpl.generatePayment(dto);
 		} catch (ParkingException e) {
 			// Assert
-			assertEquals(ParkingServiceImpl.VEHICLE_UNKNOW, e.getMessage());
+			assertEquals(InvalidMessageResponse.VEHICLE_UNKNOW, e.getMessage());
 		}
 	}
 

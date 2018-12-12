@@ -12,6 +12,8 @@ import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.ceiba.adnproject.constants.InvalidMessageResponse;
 import com.ceiba.adnproject.dto.InputDTO;
 import com.ceiba.adnproject.exception.ParkingException;
 import com.ceiba.adnproject.factory.IVehicleFactory;
@@ -31,10 +33,7 @@ public class ParkingServiceImpl implements IParkingService {
 	private static final int EXTRA_PRICE = 2000;
 	public static final int MAX_ENGINE = 500;
 	private static final String PATTERN = "^a|^A";
-	public static final String VEHICLE_UNKNOW = "This Vehicle doesn't exist";
-	public static final String PATTERN_EXCEPTION = "This Vehicle is unauthorized";
-	public static final String VEHICLE_REGISTERED_EXCEPTION = "This Vehicle is alredeady resgistered";
-	public static final String PARKING_COMPLETE_EXCEPTION = "Sorry but we dont have space for your vehicle";
+
 	private List<Parking> list = new ArrayList<>();
 
 	@Autowired
@@ -61,9 +60,9 @@ public class ParkingServiceImpl implements IParkingService {
 		Vehicle vehicle = iVehicleFactory.createVehicle(object);
 		Parking p = findVehicle(vehicle.getLicenceNumber().toUpperCase());
 		if (p != null)
-			throw new ParkingException(VEHICLE_REGISTERED_EXCEPTION);
+			throw new ParkingException(InvalidMessageResponse.VEHICLE_REGISTERED_EXCEPTION);
 		if (isCompleteVehicle(vehicle.getVehicleType().getType().toUpperCase()))
-			throw new ParkingException(PARKING_COMPLETE_EXCEPTION);
+			throw new ParkingException(InvalidMessageResponse.PARKING_COMPLETE_EXCEPTION);
 		verifyLicence(vehicle.getLicenceNumber());
 		Parking parking = new Parking(true, vehicle.getVehicleType().getType(), vehicle);
 		iPersistenceRepository.save(parking);
@@ -79,7 +78,7 @@ public class ParkingServiceImpl implements IParkingService {
 		Pattern p = Pattern.compile(PATTERN);
 		Matcher m = p.matcher(licence);
 		if (m.find() && verifyDay()) {
-			throw new ParkingException(PATTERN_EXCEPTION);
+			throw new ParkingException(InvalidMessageResponse.PATTERN_EXCEPTION);
 		}
 		return true;
 	}
@@ -124,7 +123,7 @@ public class ParkingServiceImpl implements IParkingService {
 		calendario.setTime(new Date());
 		Parking parking = findVehicle(licence.toUpperCase());
 		if (parking == null)
-			throw new ParkingException(VEHICLE_UNKNOW);
+			throw new ParkingException(InvalidMessageResponse.VEHICLE_UNKNOW);
 		int timeInside = timeIside(parking.getDateIn(), calendario.getTime());
 		double totalPrice = 0;
 		int priceByHour = 0;
@@ -136,7 +135,8 @@ public class ParkingServiceImpl implements IParkingService {
 			priceByHour = MOTORCYCLE_HOUR;
 			totalPrice = generatePrice(timeInside, 0, MOTORCYCLE_HOUR, MOTORCYCLE_DAY);
 		}
-		if (Integer.parseInt(parking.getVehicle().getEngine()) > MAX_ENGINE) {
+		if (Integer.parseInt(parking.getVehicle().getEngine()) > MAX_ENGINE && 
+				parking.getVehicle().getVehicleType().getType().equalsIgnoreCase(VehicleTypeEnum.MOTORCYCLE.name())) {
 			totalPrice += EXTRA_PRICE;
 		}
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
