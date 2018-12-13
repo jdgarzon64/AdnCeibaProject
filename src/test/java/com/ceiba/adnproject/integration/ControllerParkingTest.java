@@ -20,8 +20,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import com.ceiba.adnproject.constants.InvalidMessageResponse;
 import com.ceiba.adnproject.controller.ParkingController;
 import com.ceiba.adnproject.dto.InputDTO;
 import com.ceiba.adnproject.model.Parking;
@@ -41,7 +39,8 @@ public class ControllerParkingTest {
 	private TestRestTemplate restTemplate = new TestRestTemplate();
 
 	@Mock
-	private ParkingServiceImpl parkingServiceImpl;
+	ParkingServiceImpl parkingServiceImpl;
+
 	@LocalServerPort
 	private int localServerPort;
 	MockMvc mockMvc;
@@ -116,6 +115,14 @@ public class ControllerParkingTest {
 		}
 	}
 
+	/*
+	 * @Test public void getAllParkingTest() { try { URI uri = new
+	 * URI("http://localhost:" + localServerPort + "/getall");
+	 * ResponseEntity<Parking> response = restTemplate.getForEntity(uri,
+	 * Parking.class); assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
+	 * } catch (Exception e) { System.out.println("exception " + e.getMessage());
+	 * e.printStackTrace(); } }
+	 */
 	@Test
 	public void saveParkingMotorcycleTest() {
 		try {
@@ -143,13 +150,13 @@ public class ControllerParkingTest {
 	}
 
 	@Test
-	public void vehicleRegisteredExceptionTest() {
+	public void saveParkingExceptionBadRequestTest() {
 		try {
-			Mockito.doReturn(new Parking()).when(parkingServiceImpl).findVehicle("");
+			when(parkingServiceImpl.findVehicle("")).thenReturn(null);
 			URI uri = new URI("http://localhost:" + localServerPort + "/save");
-			restTemplate.postForEntity(uri, dtoCar, Parking.class);
+			ResponseEntity<Parking> response = restTemplate.postForEntity(uri, dtoCar, Parking.class);
+			assertThat(response.getStatusCode(), equalTo(HttpStatus.BAD_REQUEST));
 		} catch (Exception e) {
-			assertEquals(InvalidMessageResponse.VEHICLE_REGISTERED_EXCEPTION, e.getMessage());
 			e.printStackTrace();
 		}
 	}
