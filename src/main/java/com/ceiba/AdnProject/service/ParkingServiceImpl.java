@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +35,6 @@ public class ParkingServiceImpl implements IParkingService {
 	private static final int EXTRA_PRICE = 2000;
 	public static final int MAX_ENGINE = 500;
 	private static final String PATTERN = "^a|^A";
-
 	private List<Parking> list = new ArrayList<>();
 
 	@Autowired
