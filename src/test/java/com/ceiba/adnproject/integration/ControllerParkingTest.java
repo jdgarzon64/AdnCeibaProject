@@ -2,8 +2,6 @@ package com.ceiba.adnproject.integration;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 import java.net.URI;
 import org.junit.Before;
@@ -25,13 +23,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.ceiba.adnproject.constants.InvalidMessageResponse;
 import com.ceiba.adnproject.controller.ParkingController;
-import com.ceiba.adnproject.dataBuilderTest.ParkingDataBuilder;
 import com.ceiba.adnproject.dto.InputDTO;
-import com.ceiba.adnproject.factory.IVehicleFactory;
 import com.ceiba.adnproject.model.Parking;
 import com.ceiba.adnproject.model.Payment;
-import com.ceiba.adnproject.repository.IPaymentRepository;
-import com.ceiba.adnproject.repository.IPersistenceRepository;
 import com.ceiba.adnproject.service.IParkingService;
 import com.ceiba.adnproject.service.ParkingServiceImpl;
 import com.google.gson.Gson;
@@ -153,7 +147,7 @@ public class ControllerParkingTest {
 		try {
 			Mockito.doReturn(new Parking()).when(parkingServiceImpl).findVehicle("");
 			URI uri = new URI("http://localhost:" + localServerPort + "/save");
-			ResponseEntity<Parking> response = restTemplate.postForEntity(uri, dtoCar, Parking.class);
+			restTemplate.postForEntity(uri, dtoCar, Parking.class);
 		} catch (Exception e) {
 			assertEquals(InvalidMessageResponse.VEHICLE_REGISTERED_EXCEPTION, e.getMessage());
 			e.printStackTrace();
