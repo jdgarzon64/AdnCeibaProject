@@ -18,9 +18,6 @@ import org.hibernate.annotations.OnDeleteAction;
 @Table(name = "Vehicle")
 public class Vehicle implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -29,7 +26,6 @@ public class Vehicle implements Serializable {
 	public int idVehicle;
 	
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true,orphanRemoval = true)
-	//@ManyToOne
 	@JoinColumn(name = "id_type")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	public VehicleType vehicleType;
@@ -48,32 +44,16 @@ public class Vehicle implements Serializable {
 		return idVehicle;
 	}
 
-	public void setIdVehicle(int idVehicle) {
-		this.idVehicle = idVehicle;
-	}
-
 	public VehicleType getVehicleType() {
 		return vehicleType;
-	}
-
-	public void setVehicleType(VehicleType vehicleType) {
-		this.vehicleType = vehicleType;
 	}
 
 	public String getLicenceNumber() {
 		return licenceNumber;
 	}
 
-	public void setLicenceNumber(String licenceNumber) {
-		this.licenceNumber = licenceNumber;
-	}
-
 	public String getEngine() {
 		return engine;
-	}
-
-	public void setEngine(String engine) {
-		this.engine = engine;
 	}
 
 }

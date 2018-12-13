@@ -41,7 +41,6 @@ public class Parking implements Serializable {
 
 	
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true,orphanRemoval = true)
-	//@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_vehicle",nullable =false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Vehicle vehicle;
@@ -70,24 +69,13 @@ public class Parking implements Serializable {
 		return status;
 	}
 
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
-
 	public String getType() {
 		return type;
 	}
 
-	public void setType(String type) {
-		this.type = type;
-	}
 
 	public Vehicle getVehicle() {
 		return vehicle;
-	}
-
-	public void setVehicle(Vehicle vehicle) {
-		this.vehicle = vehicle;
 	}
 
 	public Date getDateIn() {
@@ -97,4 +85,5 @@ public class Parking implements Serializable {
 	public void setDateIn(Date dateIn) {
 		this.dateIn = dateIn;
 	}
+
 }

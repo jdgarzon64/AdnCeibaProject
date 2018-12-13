@@ -21,15 +21,8 @@ public class ParkingResponseDTO implements Serializable {
 	public String getMessage() {
 		return message;
 	}
-	public void setMessage(String message) {
-		this.message = message;
-	}
 	public Parking getParking() {
 		return parking;
 	}
-	public void setParking(Parking parking) {
-		this.parking = parking;
-	}
-	
-	
+
 }
