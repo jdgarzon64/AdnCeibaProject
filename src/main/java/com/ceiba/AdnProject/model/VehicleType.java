@@ -13,10 +13,6 @@ import javax.persistence.Table;
 @Table(name = "VehicleType")
 public class VehicleType implements Serializable{
 
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -40,16 +36,7 @@ public class VehicleType implements Serializable{
 		return idType;
 	}
 
-	public void setIdType(int idType) {
-		this.idType = idType;
-	}
-
 	public String getType() {
 		return type;
 	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
 }

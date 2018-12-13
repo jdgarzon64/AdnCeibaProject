@@ -27,10 +27,6 @@ public class InputDTO implements Serializable{
 		return licence;
 	}
 
-	public void setLicence(String licence) {
-		this.licence = licence;
-	}
-
 	public String getEngine() {
 		return engine;
 	}
@@ -41,10 +37,6 @@ public class InputDTO implements Serializable{
 
 	public String getType() {
 		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
 	}
 	
 }
