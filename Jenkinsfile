@@ -16,7 +16,7 @@ pipeline {
 	}
 	
 	triggers {
-		pollSCM('@hourly')
+		// pollSCM('@hourly')
 	}
 	
 	stages{
